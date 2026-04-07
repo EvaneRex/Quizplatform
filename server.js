@@ -8,7 +8,10 @@ import userAuthRoutes from "./routes/userAuth.js";
 import quizRoutes from "./routes/quiz.routes.js";
 import { requireLogin, requireRole } from "./middleware/validerRolle.js";
 import fs from "fs";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 let results = [];
 
 const app = express();
@@ -37,18 +40,20 @@ app.use(
 );
 
 // Routes
+app.get("/", (req, res) => {
+  if (req.session?.user) {
+    return res.redirect("/dashboard");
+  }
+  return res.sendFile(path.join(__dirname, "public", "login.html"));
+});
 // Dashboard til hver, på den måde kan studerende ikke bruge udviklerværktøj til at se admin
 // Alle de steder hvor studerende ikke skal have adgang, skal der være en requireRole("admin") middleware, og på de steder hvor man skal være logget ind, men ikke nødvendigvis admin, skal der være requireLogin middleware
 
 app.get("/dashboard", requireLogin, (req, res) => {
   if (req.session.user.role === "admin") {
-    return res.sendFile(
-      path.join(process.cwd(), "public", "dashboard-admin.html"),
-    );
+    return res.sendFile(path.join(__dirname, "public", "dashboard-admin.html"));
   }
-  return res.sendFile(
-    path.join(process.cwd(), "public", "dashboard-student.html"),
-  );
+  return res.sendFile(path.join(__dirname, "public", "dashboard-student.html"));
 });
 
 app.post("/results", requireLogin, (req, res) => {
