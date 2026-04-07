@@ -3,7 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Login</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Quizplatform</h1>
+    <div>
+      <h2>Login</h2>
+      <form id="login">
+        <label>
+          <input
+            type="text"
+            name="username"
+            autocomplete="username"
+            placeholder="Brugernavn"
+            required
+          />
+        </label>
+        <br />
+        <label>
+          <input
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            minlength="8"
+            maxlength="128"
+            placeholder="Password"
+            required
+          />
+        </label>
+        <br />
+        <button>Login</button>
+      </form>
+      <pre id="out"></pre>
+      <a href="opretBruger.html">Ikke en bruger?</a>
+      <script></script>
+    </div>
+  </body>
 </html>

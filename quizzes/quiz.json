@@ -1,0 +1,95 @@
+{
+  "title": "JavaScript Basics",
+  "questions": [
+    {
+      "type": "single",
+      "question": "Hvad bruges JavaScript primært til?",
+      "answers": [
+        "At style hjemmesider",
+        "At strukturere indhold",
+        "At gøre hjemmesider interaktive",
+        "At gemme data i databaser"
+      ],
+      "correct": [2]
+    },
+    {
+      "type": "single",
+      "question": "Hvilket keyword bruges til at deklarere en variabel?",
+      "answers": ["var", "let", "const", "Alle ovenstående"],
+      "correct": [3]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af disse er gyldige datatyper i JavaScript?",
+      "answers": ["String", "Number", "Boolean", "Character"],
+      "correct": [0, 1, 2]
+    },
+    {
+      "type": "single",
+      "question": "Hvad returnerer typeof 'hello'?",
+      "answers": ["string", "text", "word", "object"],
+      "correct": [0]
+    },
+    {
+      "type": "single",
+      "question": "Hvilken metode bruges til at hente et element i DOM?",
+      "answers": [
+        "getElementById",
+        "querySelector",
+        "getElementsByClassName",
+        "Alle ovenstående"
+      ],
+      "correct": [3]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af disse er loops i JavaScript?",
+      "answers": ["for", "while", "loop", "do...while"],
+      "correct": [0, 1, 3]
+    },
+    {
+      "type": "single",
+      "question": "Hvad gør '===' i JavaScript?",
+      "answers": [
+        "Sammenligner kun værdi",
+        "Sammenligner værdi og type",
+        "Tildeler en værdi",
+        "Konverterer type"
+      ],
+      "correct": [1]
+    },
+    {
+      "type": "single",
+      "question": "Hvad er en funktion?",
+      "answers": [
+        "En variabel",
+        "En blok kode der kan genbruges",
+        "En type loop",
+        "En database"
+      ],
+      "correct": [1]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af disse er gyldige måder at deklarere en funktion på?",
+      "answers": [
+        "function myFunction() {}",
+        "const myFunction = function() {}",
+        "let myFunction = () => {}",
+        "Alle ovenstående"
+      ],
+      "correct": [0, 1, 2, 3]
+    },
+    {
+      "type": "single",
+      "question": "Hvad bruges addEventlistener til i JavaScript?",
+      "answers": [
+        "At tilføje en event listener til et element",
+        "At fjerne en event listener fra et element",
+        "At oprette en ny event listener",
+        "At ændre en eksisterende event listener"
+      ],
+      "correct": [0]
+    }
+  ]
+}

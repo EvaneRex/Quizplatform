@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opret bruger</title>
+  </head>
+  <body>
+    <h1>Opret bruger</h1>
+    <form id="opretBruger">
+      <label>
+        <input
+          type="text"
+          name="username"
+          autocomplete="username"
+          placeholder="Brugernavn"
+          required
+        />
+      </label>
+      <br />
+      <label>
+        <input
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          minlength="8"
+          maxlength="128"
+          placeholder="Password"
+          required
+        />
+      </label>
+      <br />
+      <button>Registrer</button>
+
+      <!--De skal tilbage til login-->
+    </form>
+    <pre id="out"></pre>
+  </body>
+</html>
