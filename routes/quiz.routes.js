@@ -1,7 +1,32 @@
-const express = require("express");
+import express from "express";
+import fs from "fs";
+import path from "path";
+
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const fs = require("fs");
-const path = require("path");
+
+router.get("/", (req, res) => {
+  const quizFolder = path.join(__dirname, "../quizzes");
+
+  const files = fs.readdirSync(quizFolder);
+
+  const quizzes = files.map((file) => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(quizFolder, file), "utf-8"),
+    );
+
+    return {
+      id: file.replace(".json", ""),
+      title: data.title,
+    };
+  });
+
+  res.json(quizzes);
+});
 
 router.get("/:id", (req, res) => {
   const id = req.params.id;
@@ -80,4 +105,4 @@ router.post("/answer", (req, res) => {
   res.json({ correct: isCorrect });
 });
 
-module.exports = router;
+export default router;

@@ -15,14 +15,15 @@ const validerOprettelse = (req, res, next) => {
       .json({ message: "Brugernavn og adgangskode skal udfyldes" });
   }
 
-  const brugernavnRegex = /\S+@\S+\.\S+/; // regex skal rettes og tilpasses til bruger navn(skal vi lave et regelsæt for dem?)
+  const brugernavnRegex =
+    /^(?=(?:.*[a-zæøå]){3,})(?=(?:.*\d){0,5})[a-zæøå\d!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]{1,20}$/i; // der tillades dk bogstaver, og der skal mindst være 3, og max være 5 tal, og længden af brugernavnet må max være 20 bogstaver
   const kodeRegex =
     /^(?=.*[a-zæøå])(?=.*[A-ZÆØÅ])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
-  if (!brugernavnRegex.test(brugernavn)) {
+  if (!brugernavnRegex.test(username)) {
     return res.status(400).json({ message: "Brugernavn skal være..." }); // regler for brugernavn
   }
-  if (!kodeRegex.test(brugernavn)) {
+  if (!kodeRegex.test(password)) {
     return res.status(400).json({ message: "Adgangskoden er ikke stærk nok" }); // skal der være en slider?
   }
   next();

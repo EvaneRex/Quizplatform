@@ -39,18 +39,23 @@
 
       <script>
         const form = document.getElementById("login");
-        const message = document.getElementById("out");
+        const out = document.getElementById("out");
+
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
+
           const username = form.username.value.trim();
           const password = form.password.value.trim();
 
           try {
-            const res = await fetch("/auth/opretBruger", {
+            const res = await fetch("/auth/login", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+              },
               body: JSON.stringify({ username, password }),
             });
+
             const data = await res.json();
 
             out.textContent = data.message;

@@ -23,7 +23,7 @@
 
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-      const quizId = urlParams.get("quizId");
+      const quizId = urlParams.get("id");
 
       let questions = [];
       let currentQuestion = 0;
@@ -31,7 +31,7 @@
       let selectedMultiple = [];
 
       let score = 0;
-      let startTime = date.now();
+      let startTime = Date.now();
 
       //load quiz data
       async function loadQuiz() {
@@ -183,11 +183,11 @@
             username: "test", //ÆNDRES SENERE NÅR LOGIN ER OPPE OG KØRE
             quizId,
             score,
-            totat: questions.length,
+            total: questions.length,
             time,
           }),
         });
-        window.location.href = "/dasboard.html";
+        window.location.href = "/dashboard.html";
       }
 
       loadQuiz();

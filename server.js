@@ -1,10 +1,12 @@
 import express from "express";
 import session from "express-session";
-// import bcrypt from "bcrypt";
 import Ajv from "ajv";
 const ajv = new Ajv({ allErrors: true });
 import "dotenv/config";
 import userAuthRoutes from "./routes/userAuth.js";
+import quizRoutes from "./routes/quiz.routes.js";
+import fs from "fs";
+
 let results = [];
 
 const app = express();
@@ -15,9 +17,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 //valider quiz ved upload
-const schema = JSON.parse(
-  fstat.readFileSync("schemas/quiz.schema.json", "utf-8"),
-);
+const schema = JSON.parse(fs.readFileSync("schemas/quiz.schema.json", "utf-8"));
 const validateQuiz = ajv.compile(schema);
 
 app.use(
@@ -29,10 +29,13 @@ app.use(
       httpOnly: true,
       secure: false, // I production bør dette sættes til true for at sikre, at cookies kun sendes over HTTPS
       sameSite: "lax",
-      //   maxAge: 1000 * 60 * 60, // 1 time
+      maxAge: 1000 * 60 * 60, // 1 time
     },
   }),
 );
+
+// Routes
+app.use("/quiz", quizRoutes);
 
 app.post("/results", (req, res) => {
   const { username, quizId, score, total, time } = req.body;
@@ -57,13 +60,18 @@ app.get("/results/me", (req, res) => {
   res.json(userResults);
 });
 
-// Går ind på userAuth.js
 app.use("/auth", userAuthRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Serveren kører");
-});
+// beskyt ruter der kræver login
+function requireLogin(req, res, next) {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Ikke logget ind" });
+  }
+  next();
+}
+
+// Server stuff
 
 app.listen(PORT, () => {
-  console.log(`Serveren kører på http://:${PORT}`);
+  console.log(`Serveren kører på http://localhost:${PORT}`);
 });

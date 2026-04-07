@@ -1,1 +1,17 @@
-{}
+[
+  {
+    "username": "signeg12",
+    "password": "$2b$10$hfeH8vBs.WUKChKndGYJouWQd/ePYnBDIQCXmu.yvv7SYfIWYNuzS",
+    "role": "user"
+  },
+  {
+    "username": "Sarah@123",
+    "password": "$2b$10$A1zh7EX7/2LfxDmJI6oaP.cu7bdqIV3rObchqB39sfFf121HtxFsW",
+    "role": "user"
+  },
+  {
+    "username": "Admin@123",
+    "password": "$2b$10$s8eUyczTxM2H/6yy4pX/BOT5tGq79A0ZunVasW2JwsHYBlOpetMJe",
+    "role": "user"
+  }
+]

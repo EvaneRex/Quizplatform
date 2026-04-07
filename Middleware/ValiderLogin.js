@@ -9,14 +9,16 @@ const validerLogin = (req, res, next) => {
       .json({ message: "Brugernavn eller adgangskode er forkert" });
   }
 
-  const brugernavnRegex = /\S+@\S+\.\S+/; // regex skal rettes og tilpasses til bruger navn(skal vi lave et regelsæt for dem?)
+  const brugernavnRegex =
+    /^(?=(?:.*[a-zæøå]){3,})(?=(?:.*\d){0,5})[a-zæøå\d!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]{1,20}$/i; // regex skal rettes og tilpasses til bruger navn(skal vi lave et regelsæt for dem?)
   const kodeRegex =
     /^(?=.*[a-zæøå])(?=.*[A-ZÆØÅ])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-  if (!brugernavnRegex.test(brugernavn) || !kodeRegex.test(password)) {
+  if (!brugernavnRegex.test(username) || !kodeRegex.test(password)) {
     return res
       .status(400)
       .json({ message: "Brugernavn eller adgangskode er forkert" });
   }
+
   next();
 };
 

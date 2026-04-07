@@ -25,5 +25,32 @@
 
     <!--Almindelig bruger har: Start quiz, se resultat, tag quiz igen -->
     <!--Admin har: Tag quiz, upload quiz fil, slet quiz, se deltager liste med dropdown -->
+
+    <script>
+      async function loadQuizzes() {
+        const res = await fetch("/quiz");
+        const quizzes = await res.json();
+
+        const list = document.getElementById("activeQuizzes");
+        list.innerHTML = "";
+
+        quizzes.forEach((q) => {
+          const li = document.createElement("li");
+
+          li.innerHTML = `
+            ${q.title}
+            <button onclick="startQuiz('${q.id}')">Start</button>
+          `;
+
+          list.appendChild(li);
+        });
+      }
+
+      function startQuiz(id) {
+        window.location.href = "/quiz.html?id=" + id;
+      }
+
+      loadQuizzes();
+    </script>
   </body>
 </html>
