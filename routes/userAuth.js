@@ -21,32 +21,39 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     : [];
 
   const user = users.find((u) => u.username === username);
-  if (!user) return res.status(401).json({ message: "Brugernavn findes ikke" }); // Anden fejlbesked skal ind, det skal generaliseres 🙃
+  if (!user)
+    return res
+      .status(401)
+      .json({ message: "Brugernavn eller adgangskode er forkert" });
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     incrementAttempts(false);
-    return res.status(401).json({ message: "Forkert adgangskode" }); // Anden fejlbesked skal ind, det skal generaliseres 🙃
+    return res
+      .status(401)
+      .json({ message: "Brugernavn eller adgangskode er forkert" });
   }
 
   // succesfuldt login: nulstil tæller
   resetAttempts();
+  req.session.user = { username: user.username, role: user.role };
+  res.json({ message: "Login succesfuldt", role: user.role });
 });
 
 // Opret bruger delen
 router.post("/opretBruger", validerOpretBruger, async (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password } = req.body;
   const usersPath = "./users/users.json";
   let users = fs.existsSync(usersPath)
     ? JSON.parse(fs.readFileSync(usersPath, "utf-8"))
     : [];
 
   if (users.find((userObj) => userObj.username === username)) {
-    return res.status(400).json({ message: "Brugeren eksistere allerede" }); // ikke det mest sikre men eh
+    return res.status(400).json({ message: "Brugeren eksistere allerede" });
   }
-  // Rolle fordeling
+
   const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword, role: role || "user" });
+  users.push({ username, password: hashedPassword, role: "student" });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
   res.json({ message: "Brugeren er oprettet" });
 });

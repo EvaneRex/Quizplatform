@@ -2,9 +2,11 @@ import express from "express";
 import session from "express-session";
 import Ajv from "ajv";
 const ajv = new Ajv({ allErrors: true });
+import path from "path";
 import "dotenv/config";
 import userAuthRoutes from "./routes/userAuth.js";
 import quizRoutes from "./routes/quiz.routes.js";
+import { requireLogin, requireRole } from "./middleware/validerRolle.js";
 import fs from "fs";
 
 let results = [];
@@ -35,11 +37,22 @@ app.use(
 );
 
 // Routes
-app.use("/quiz", quizRoutes);
+// Dashboard til hver, på den måde kan studerende ikke bruge udviklerværktøj til at se admin
+// Alle de steder hvor studerende ikke skal have adgang, skal der være en requireRole("admin") middleware, og på de steder hvor man skal være logget ind, men ikke nødvendigvis admin, skal der være requireLogin middleware
 
-app.post("/results", (req, res) => {
+app.get("/dashboard", requireLogin, (req, res) => {
+  if (req.session.user.role === "admin") {
+    return res.sendFile(
+      path.join(process.cwd(), "public", "dashboard-admin.html"),
+    );
+  }
+  return res.sendFile(
+    path.join(process.cwd(), "public", "dashboard-student.html"),
+  );
+});
+
+app.post("/results", requireLogin, (req, res) => {
   const { username, quizId, score, total, time } = req.body;
-
   results.push({
     username,
     quizId,
@@ -48,30 +61,23 @@ app.post("/results", (req, res) => {
     time,
     date: new Date(),
   });
-
   res.json({ message: "Resultat gemt" });
 });
 
-app.get("/results/me", (req, res) => {
-  const { username } = req.body;
-
-  const userResults = results.filter((result) => result.username === username);
-
-  res.json(userResults);
+// ----- LOGOUT -----
+app.post("/auth/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Kunne ikke logge ud" });
+    }
+    res.json({ message: "Du er logget ud" });
+  });
 });
 
+app.use("/quiz", quizRoutes);
 app.use("/auth", userAuthRoutes);
 
-// beskyt ruter der kræver login
-function requireLogin(req, res, next) {
-  if (!req.session.user) {
-    return res.status(401).json({ message: "Ikke logget ind" });
-  }
-  next();
-}
-
 // Server stuff
-
 app.listen(PORT, () => {
   console.log(`Serveren kører på http://localhost:${PORT}`);
 });
