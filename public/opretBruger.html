@@ -35,5 +35,34 @@
       <!--De skal tilbage til login-->
     </form>
     <pre id="out"></pre>
+    <script>
+      const form = document.getElementById("opretBruger");
+      const message = document.getElementById("out");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = form.username.value.trim();
+        const password = form.password.value.trim();
+
+        try {
+          const res = await fetch("/auth/opretBruger", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+          const data = await res.json();
+
+          out.textContent = data.message;
+
+          if (res.ok) {
+            setTimeout(() => {
+              window.location.href = "/index.html";
+            }, 1000);
+          }
+        } catch (err) {
+          out.textContent = "Noget gik galt, prøv igen";
+        }
+      });
+    </script>
   </body>
 </html>

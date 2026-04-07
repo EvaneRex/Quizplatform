@@ -1,13 +1,18 @@
 import express from "express";
 import fs from "fs";
 import bcrypt from "bcrypt";
-import validerLogin from "./middleware/validerLogin.js";
-import validerOpretBruger from "../middleware/validerOpretelse.js";
-
+import validerLogin from "../middleware/validerLogin.js";
+import validerOpretBruger from "../middleware/validerOpretBruger.js";
+import {
+  lockout,
+  incrementAttempts,
+  resetAttempts,
+  loginLimiter,
+} from "../Middleware/lockout.js";
 const router = express.Router();
 
 // Login delen
-router.post("/login", validerLogin, async (req, res) => {
+router.post("/login", validerLogin, lockout, async (req, res) => {
   const { username, password, role } = req.body;
   const usersPath = "./users/users.json";
   const users = fs.existsSync(usersPath)
@@ -22,6 +27,23 @@ router.post("/login", validerLogin, async (req, res) => {
 
   req.session.user = { username: user.username, role: user.role };
   res.json({ message: "Login succesfuldt", role: user.role });
+});
+
+// skal blandes med overstående kode
+router.post("/login", validerLogin, lockout, async (req, res) => {
+  const { username, password } = req.body;
+  // ... find user
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    incrementAttempts(false); // login fejlede
+    return res.status(401).json({ message: "Forkert adgangskode" });
+  }
+
+  incrementAttempts(true);
+  {
+    resetAttempts(); // nulstiller tælleren ved succesfuldt login
+  }
 });
 
 // Opret bruger delen

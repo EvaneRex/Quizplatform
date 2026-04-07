@@ -1,7 +1,6 @@
 import express from "express";
 import session from "express-session";
 // import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import Ajv from "ajv";
 const ajv = new Ajv({ allErrors: true });
 import "dotenv/config";
