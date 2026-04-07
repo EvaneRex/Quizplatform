@@ -45,8 +45,6 @@ router.get("/:id", (req, res) => {
   });
 });
 
-module.exports = router;
-
 router.post("/answer", (req, res) => {
   const { quizId, questionIndex, selected, mapping } = req.body;
 
@@ -81,3 +79,5 @@ router.post("/answer", (req, res) => {
 
   res.json({ correct: isCorrect });
 });
+
+module.exports = router;

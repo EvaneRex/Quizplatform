@@ -1,19 +1,20 @@
 import express from "express";
 import fs from "fs";
 import bcrypt from "bcrypt";
-import validerLogin from "../middleware/validerLogin.js";
-import validerOpretBruger from "../middleware/validerOpretBruger.js";
+import validerLogin from "./middleware/validerLogin.js";
+import validerOpretBruger from "./middleware/validerOprettelse.js";
 import {
   lockout,
   incrementAttempts,
   resetAttempts,
   loginLimiter,
-} from "../Middleware/lockout.js";
+} from "./middleware/lockout.js";
+
 const router = express.Router();
 
-// Login delen
-router.post("/login", validerLogin, lockout, async (req, res) => {
-  const { username, password, role } = req.body;
+// Login delen med lockout + rate limiting
+router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
+  const { username, password } = req.body;
   const usersPath = "./users/users.json";
   const users = fs.existsSync(usersPath)
     ? JSON.parse(fs.readFileSync(usersPath))
@@ -40,16 +41,17 @@ router.post("/login", validerLogin, lockout, async (req, res) => {
     return res.status(401).json({ message: "Forkert adgangskode" });
   }
 
-  incrementAttempts(true);
-  {
-    resetAttempts(); // nulstiller tælleren ved succesfuldt login
-  }
+  // succesfuldt login: nulstil tæller
+  resetAttempts();
+
+  req.session.user = { username: user.username, role: user.role };
+  res.json({ message: "Login succesfuldt", role: user.role });
 });
 
 // Opret bruger delen
 router.post("/opretBruger", validerOpretBruger, async (req, res) => {
   const { username, password, role } = req.body;
-  const usersPath = "/users/users.json";
+  const usersPath = "./users/users.json";
   let users = fs.existsSync(usersPath)
     ? JSON.parse(fs.readFileSync(usersPath))
     : [];

@@ -5,6 +5,7 @@ import Ajv from "ajv";
 const ajv = new Ajv({ allErrors: true });
 import "dotenv/config";
 import userAuthRoutes from "./routes/userAuth.js";
+let results = [];
 
 const app = express();
 const PORT = 3000;
@@ -32,6 +33,29 @@ app.use(
     },
   }),
 );
+
+app.post("/results", (req, res) => {
+  const { username, quizId, score, total, time } = req.body;
+
+  results.push({
+    username,
+    quizId,
+    score,
+    total,
+    time,
+    date: new Date(),
+  });
+
+  res.json({ message: "Resultat gemt" });
+});
+
+app.get("/results/me", (req, res) => {
+  const { username } = req.body;
+
+  const userResults = results.filter((result) => result.username === username);
+
+  res.json(userResults);
+});
 
 // Går ind på userAuth.js
 app.use("/auth", userAuthRoutes);
