@@ -1,14 +1,14 @@
 import express from "express";
 import fs from "fs";
 import bcrypt from "bcrypt";
-import validerLogin from "./middleware/validerLogin.js";
-import validerOpretBruger from "./middleware/validerOprettelse.js";
+import validerLogin from "../middleware/validerLogin.js";
+import validerOpretBruger from "../middleware/validerOprettelse.js";
 import {
   lockout,
   incrementAttempts,
   resetAttempts,
   loginLimiter,
-} from "./middleware/lockout.js";
+} from "../middleware/lockout.js";
 
 const router = express.Router();
 
@@ -21,31 +21,19 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     : [];
 
   const user = users.find((u) => u.username === username);
-  if (!user) return res.status(401).json({ message: "Brugernavn findes ikke" });
-
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(401).json({ message: "Forkert adgangskode" });
-
-  req.session.user = { username: user.username, role: user.role };
-  res.json({ message: "Login succesfuldt", role: user.role });
-});
-
-// skal blandes med overstående kode
-router.post("/login", validerLogin, lockout, async (req, res) => {
-  const { username, password } = req.body;
-  // ... find user
+  if (!user) return res.status(401).json({ message: "Brugernavn findes ikke" }); // Anden fejlbesked skal ind, det skal generaliseres 🙃
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    incrementAttempts(false); // login fejlede
-    return res.status(401).json({ message: "Forkert adgangskode" });
+    incrementAttempts(false);
+    return res.status(401).json({ message: "Forkert adgangskode" }); // Anden fejlbesked skal ind, det skal generaliseres 🙃
   }
-
-  // succesfuldt login: nulstil tæller
-  resetAttempts();
 
   req.session.user = { username: user.username, role: user.role };
   res.json({ message: "Login succesfuldt", role: user.role });
+
+  // succesfuldt login: nulstil tæller
+  resetAttempts();
 });
 
 // Opret bruger delen

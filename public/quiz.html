@@ -5,5 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h1 id="title"></h1>
+
+    <p id="question"></p>
+
+    <div id="answers"></div>
+
+    <br />
+
+    <button onclick="submitAnswer()">Svar</button>
+    <button id="nextBtn" onclick="nextQuestion()" style="display: none">
+      Næste
+    </button>
+
+    <p id="feedback"></p>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const quizId = urlParams.get("quizId");
+
+      let questions = [];
+      let currentQuestion = 0;
+      let selected = null;
+      let selectedMultiple = [];
+
+      let score = 0;
+      let startTime = date.now();
+
+      //load quiz data
+      async function loadQuiz() {
+        const response = await fetch("/quiz/" + quizId);
+        const data = await response.json();
+        questions = data.questions;
+        document.getElementById("title").innerText = data.title;
+        showQuestion();
+      }
+
+      //vis spørgsmål
+      function showQuestion() {
+        const q = questions[currentQuestion];
+
+        document.getElementById("question").innerText = q.question;
+
+        const answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+
+        selected = null;
+        selectedMultiple = [];
+
+        q.answers.forEach((answer, index) => {
+          const btn = document.createElement("button");
+          btn.innerText = answer;
+
+          if (q.type === "single") {
+            btn.onclick = () => {
+              selected = index;
+            };
+          }
+
+          if (q.type === "multiple") {
+            btn.onclick = () => {
+              if (selectedMultiple.includes(index)) {
+                selectedMultiple = selectedMultiple.filter((i) => i !== index);
+              } else {
+                selectedMultiple.push(index);
+              }
+            };
+          }
+
+          answersDiv.appendChild(btn);
+          answersDiv.appendChild(document.createElement("br"));
+        });
+
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("nextBtn").style.display = "none";
+      }
+
+      //vis spørgsmål
+      function showQuestion() {
+        const q = questions[currentQuestion];
+
+        document.getElementById("question").innerText = q.question;
+
+        const answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+
+        selected = null;
+        selectedMultiple = [];
+
+        q.answers.forEach((answer, index) => {
+          const btn = document.createElement("button");
+          btn.innerText = answer;
+
+          if (q.type === "single") {
+            btn.onclick = () => {
+              selected = index;
+            };
+          }
+
+          if (q.type === "multiple") {
+            btn.onclick = () => {
+              if (selectedMultiple.includes(index)) {
+                selectedMultiple = selectedMultiple.filter((i) => i !== index);
+              } else {
+                selectedMultiple.push(index);
+              }
+            };
+          }
+
+          answersDiv.appendChild(btn);
+          answersDiv.appendChild(document.createElement("br"));
+        });
+
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("nextBtn").style.display = "none";
+      }
+
+      //submit svar
+      async function submitAnswer() {
+        const q = questions[currentQuestion];
+
+        const selectedAnswer =
+          q.type === "multiple" ? selectedMultiple : selected;
+
+        const res = await fetch("/quiz/answer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            quizId,
+            questionIndex: currentQuestion,
+            selected: selectedAnswer,
+            mapping: q.mapping,
+          }),
+        });
+
+        const data = await res.json();
+
+        //UI feedback
+        if (data.correct) {
+          document.getElementById("feedback").innerText = "Korrekt!";
+          score += 1;
+        } else {
+          document.getElementById("feedback").innerText = "Forkert!";
+        }
+
+        document.getElementById("nextBtn").style.display = "block";
+      }
+
+      //gå til næste spørgsmål
+      function nextQuestion() {
+        currentQuestion++;
+
+        if (currentQuestion >= questions.length) {
+          finishQuiz();
+        } else {
+          showQuestion();
+        }
+      }
+
+      //afslut quiz
+      async function finishQuiz() {
+        const time = Math.floor((Date.now() - startTime) / 1000);
+
+        alert(
+          `Færdig!\nscore: ${score}/${questions.length}\ntid: ${time} sekunder`,
+        );
+
+        await fetch("/results", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: "test", //ÆNDRES SENERE NÅR LOGIN ER OPPE OG KØRE
+            quizId,
+            score,
+            totat: questions.length,
+            time,
+          }),
+        });
+        window.location.href = "/dasboard.html";
+      }
+
+      loadQuiz();
+    </script>
+  </body>
 </html>
