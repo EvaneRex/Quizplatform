@@ -10,8 +10,18 @@
     "role": "admin"
   },
   {
+    "username": "Admin@123",
+    "password": "$2b$10$s8eUyczTxM2H/6yy4pX/BOT5tGq79A0ZunVasW2JwsHYBlOpetMJe",
+    "role": "admin"
+  },
+  {
     "username": "rikke96",
     "password": "$2b$10$dnofhvYU7FemjxvBB5sFJOscB5OUBfui1JUnItWqLRRQ37X96I8Vy",
     "role": "admin"
+  },
+  {
+    "username": "user1@USER",
+    "password": "$2b$10$C7ndEPBLJyuHKLH10jhnWOGEz7vUqiXfh/2.3ATJ668CitqPeRhgO",
+    "role": "student"
   }
 ]

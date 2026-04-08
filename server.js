@@ -51,9 +51,13 @@ app.get("/", (req, res) => {
 
 app.get("/dashboard", requireLogin, (req, res) => {
   if (req.session.user.role === "admin") {
-    return res.sendFile(path.join(__dirname, "public", "dashboard-admin.html"));
+    return res.sendFile(
+      path.join(__dirname, "private", "dashboard-admin.html"),
+    );
   }
-  return res.sendFile(path.join(__dirname, "public", "dashboard-student.html"));
+  return res.sendFile(
+    path.join(__dirname, "private", "dashboard-student.html"),
+  );
 });
 
 app.post("/results", requireLogin, (req, res) => {

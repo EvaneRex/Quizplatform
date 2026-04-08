@@ -42,7 +42,7 @@ function resetAttempts() {
 const loginLimiter = rateLimit({
   // beskytter mod brute-force login ved at begrænse antal forsøg pr. IP
   windowMs: 15 * 60 * 1000, // 15 minutter
-  max: 5, // maks 5 loginforsøg pr. IP-adresse inden for 15 minutter
+  max: 50, // maks 5 loginforsøg pr. IP-adresse inden for 15 minutter
   standardHeaders: true, // returnerer ratelimitstatus i `RateLimit-*` headers
   legacyHeaders: false,
   message: "For mange loginforsøg, prøv igen om 15 minutter.",
