@@ -106,5 +106,5 @@ app.use("/auth", userAuthRoutes);
 
 // Server stuff
 app.listen(PORT, () => {
-  console.log(`Serveren kører på http://localhost:${PORT}`);
+  console.log(`Serveren kører på http://localhost:${PORT}/login.html`);
 });

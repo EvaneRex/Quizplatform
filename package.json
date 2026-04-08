@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/EvaneRex/Quizplatform/issues"
   },
-  "homepage": "https://github.com/EvaneRex/Quizplatform#readme"
+  "homepage": "https://github.com/EvaneRex/Quizplatform#readme",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
 }

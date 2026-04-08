@@ -36,11 +36,18 @@ const validerOprettelse = (req, res, next) => {
       message: "Ugyldig email",
     });
   }
+
+  // Vi tjekker om email og brugernavn allerede findes
   const users = getUsers();
 
   if (users.find((u) => u.email === email)) {
     return res.status(400).json({
       message: "Email findes allerede",
+    });
+  }
+  if (users.find((u) => u.username === username)) {
+    return res.status(400).json({
+      message: "Brugernavn findes allerede",
     });
   }
 

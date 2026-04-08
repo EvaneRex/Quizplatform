@@ -1,6 +1,7 @@
 import express from "express";
 import fs from "fs";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import validerLogin from "../middleware/validerLogin.js";
 import validerOpretBruger from "../middleware/validerOprettelse.js";
 import { requireLogin } from "../middleware/validerRolle.js";
@@ -54,9 +55,16 @@ router.post("/opretBruger", validerOpretBruger, async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword, role: "student" });
+  users.push({
+    id: crypto.randomUUID(),
+    username,
+    email,
+    password: hashedPassword,
+    role: "student",
+    twoFactorEnabled: false,
+    secret: null,
+  });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  res.json({ message: "Brugeren er oprettet" });
 });
 
 // Hent nuværende bruger (bruges fx til at vise admin-knapper i frontend)

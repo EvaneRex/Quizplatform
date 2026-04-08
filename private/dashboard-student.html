@@ -11,8 +11,81 @@
     <button id="admin-back-btn" style="display: none">
       Tilbage til admin dashboard
     </button>
+    <h1>Velkommen til Dashboard</h1>
+    <p>Her kan du administrere dine quizzer og se dine resultater.</p>
+
+    <!-- Aktive quiz -->
+    <h2>Aktive Quizzes</h2>
+    <ul id="activeQuizzes"></ul>
+
+    <h2>Dine gennemførte Quizzes</h2>
+    <ul id="completedQuizzes"></ul>
+
+      <h3>Alle resultater</h3>
+      <ul id="allResults"></ul>
+    </div>
+
+    <!--Almindelig bruger har: Start quiz, se resultat, tag quiz igen -->
+    <!--Admin har: Tag quiz, upload quiz fil, slet quiz, se deltager liste med dropdown -->
 
     <script>
+      async function loadQuizzes() {
+        const [quizRes, resultRes] = await Promise.all([
+          fetch("/quiz"),
+          fetch("/results/me"),
+        ]);
+
+        const quizzes = await quizRes.json();
+        const results = await resultRes.json();
+
+        const completedIds = results.map((r) => r.quizId);
+
+        const activeList = document.getElementById("activeQuizzes");
+        const completedList = document.getElementById("completedQuizzes");
+
+        activeList.innerHTML = "";
+        completedList.innerHTML = "";
+
+        quizzes.forEach((q) => {
+          const li = document.createElement("li");
+
+          if (completedIds.includes(q.id)) {
+            const result = results.find((r) => r.quizId === q.id);
+
+            li.innerText = `${q.title} - ${result.score}/${result.total}`;
+            completedList.appendChild(li);
+          } else {
+            li.innerHTML = `
+              ${q.title}
+              <button onclick="startQuiz('${q.id}')">Start</button>
+            `;
+            activeList.appendChild(li);
+          }
+        });
+      }
+
+      function startQuiz(id) {
+        window.location.href = "/quiz.html?id=" + id;
+      }
+
+      loadQuizzes();
+
+      async function loadMyResults() {
+        const res = await fetch("/results/me");
+        const results = await res.json();
+
+        const list = document.getElementById("completedQuizzes");
+        list.innerHTML = "";
+
+        results.forEach((r) => {
+          const li = document.createElement("li");
+          li.innerText = `${r.quizId} - Score: ${r.score}/${r.total} - Tid: ${r.timeTaken} sekunder`;
+          list.appendChild(li);
+        });
+      }
+
+      loadMyResults();
+
       // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
       fetch("/auth/me")
         .then((res) => (res.ok ? res.json() : null))
