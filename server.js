@@ -86,16 +86,18 @@ app.post("/results", requireLogin, (req, res) => {
 });
 
 app.get("/results/me", requireLogin, (req, res) => {
-  if (!req.session.user) {
-    return res.json([]);
-  }
-
   const username = req.session.user.username;
 
   const userResults = results.filter((result) => result.username === username);
 
   res.json(userResults);
 });
+
+app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
+  res.json(results);
+});
+
+// ----- 2FA -----
 
 // ----- LOGOUT -----
 app.post("/auth/logout", (req, res) => {

@@ -1,19 +1,10 @@
 [
   {
-    "id": "4286fd38-e4fc-4615-af3c-0eeadd9150ec",
-    "username": "rikke",
-    "email": "rikk052z@iba.dk",
-    "password": "$2b$10$ai9DBjlrcG6RaSJjssZp1Oo7Zo64.JIhd.NdZhXm3nHzCEh0g1DmC",
-    "role": "student",
-    "twoFactorEnabled": false,
-    "secret": null
-  },
-  {
     "id": "606d6ea5-0b23-496f-81e6-6e8d350788ba",
     "username": "Signegre12",
     "email": "signehlg@gmail.com",
     "password": "$2b$10$FBA4.iQJkVdy4tDQ7aXdMeTq0Y.i7RZ.b5oFjRUuC3u5s1cOdYZbe",
-    "role": "student",
+    "role": "admin",
     "twoFactorEnabled": false,
     "secret": null
   },
@@ -27,19 +18,10 @@
     "secret": null
   },
   {
-    "id": "a16530a3-0d6d-4f09-9b99-b7eefd5e372f",
-    "username": "studenttest",
+    "id": "35f5f405-fef0-4eb1-b6d7-29f8d6c5834b",
+    "username": "Rikke@123",
     "email": "evanerex@gmail.com",
-    "password": "$2b$10$luJM94XEbluh.zkHiqFQauDJuBZV82AjiBE6VsF2QNPubax7i5/R.",
-    "role": "student",
-    "twoFactorEnabled": false,
-    "secret": null
-  },
-  {
-    "id": "250e9ea5-e311-4a65-ba7b-634854a3c7da",
-    "username": "SigneGregersen1!",
-    "email": "bamseline.gregersen@gmail.com",
-    "password": "$2b$10$IuhsD7I0TgMXvmaUEvzjDu7CIi.UiNiuCHvo9v66FwCk0D6/zYH4C",
+    "password": "$2b$10$C2Nqj3Z0PRkOCo4BAzW2B.TNMHouFcTC0S2UvsrlgK8zN3BHlw4xG",
     "role": "student",
     "twoFactorEnabled": false,
     "secret": null

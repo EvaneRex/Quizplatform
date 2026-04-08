@@ -71,19 +71,27 @@
 
       async function loadMyResults() {
         const res = await fetch("/results/me");
-        const results = await res.json();
+
+        if (!res.ok) return;
+
+        const data = await res.json();
 
         const list = document.getElementById("completedQuizzes");
         list.innerHTML = "";
 
-        results.forEach((r) => {
+        data.forEach((r) => {
           const li = document.createElement("li");
-          li.innerText = `${r.quizId} - ${r.score}/${r.total} - ${r.timeTaken}s`;
+
+          li.innerText = `
+            Quiz: ${r.quizId} 
+            | Score: ${r.score}/${r.total} 
+            | Tid: ${r.time}s
+          `;
+
           list.appendChild(li);
         });
       }
 
-      loadMyResults();
 
       // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
       fetch("/auth/me")

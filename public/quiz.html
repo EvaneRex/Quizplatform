@@ -190,9 +190,13 @@
             score: Math.round(score * 100) / 100,
             total: questions.length,
             time,
+            answers: questions.map((q, i) => ({
+              question: q.question,
+              userAnswer: null, // kan udvides senere
+            })),
           }),
         });
-        window.location.href = "/dashboard.html";
+        window.location.href = "/das";
       }
 
       loadQuiz();

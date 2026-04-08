@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/EvaneRex/Quizplatform#readme",
   "dependencies": {
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "qrcode": "^1.5.4",
+    "speakeasy": "^2.0.0"
   }
 }

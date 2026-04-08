@@ -33,6 +33,48 @@
           alert("Noget gik galt, prøv igen senere");
         }
       });
+
+      async function loadAllResults() {
+        const res = await fetch("/results/all");
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        const list = document.getElementById("allResults");
+        list.innerHTML = "";
+
+        data.forEach((r, index) => {
+          const li = document.createElement("li");
+
+          li.innerHTML = `
+          <strong>${r.username}</strong> - Quiz ${r.quizId}
+          <br>
+          Quiz: ${r.quizName} ${r.quizId} <br>
+          Score: ${r.score}/${r.total}
+          <br>
+          Tid: ${r.time}s
+          <br>
+          <button onclick="toggleDetails(${index})">Vis svar</button>
+          <div id="details-${index}" style="display:none;"></div>
+        `;
+
+          list.appendChild(li);
+        });
+      }
+
+      function toggleDetails(index) {
+        const el = document.getElementById("details-" + index);
+
+        if (el.style.display === "none") {
+          el.style.display = "block";
+          el.innerText = "Svar visning (kan udvides senere)";
+        } else {
+          el.style.display = "none";
+        }
+      }
+
+      loadAllResults();
     </script>
   </body>
 </html>
