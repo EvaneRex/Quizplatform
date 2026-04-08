@@ -8,5 +8,26 @@
   <body>
     <h1>Velkommen til dit dashboard, [Studentens Navn]!</h1>
     <p>Her kan du se dine kommende opgaver, deadlines og meddelelser</p>
+    <button id="admin-back-btn" style="display: none">
+      Tilbage til admin dashboard
+    </button>
+
+    <script>
+      // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
+      fetch("/auth/me")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((user) => {
+          if (user && user.role === "admin") {
+            const btn = document.getElementById("admin-back-btn");
+            btn.style.display = "inline-block";
+            btn.addEventListener("click", () => {
+              window.location.href = "/dashboard";
+            });
+          }
+        })
+        .catch(() => {
+          alert("Noget gik galt, prøv igen senere");
+        });
+    </script>
   </body>
 </html>

@@ -3,6 +3,7 @@ import fs from "fs";
 import bcrypt from "bcrypt";
 import validerLogin from "../middleware/validerLogin.js";
 import validerOpretBruger from "../middleware/validerOprettelse.js";
+import { requireLogin } from "../middleware/validerRolle.js";
 import {
   lockout,
   incrementAttempts,
@@ -56,6 +57,11 @@ router.post("/opretBruger", validerOpretBruger, async (req, res) => {
   users.push({ username, password: hashedPassword, role: "student" });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
   res.json({ message: "Brugeren er oprettet" });
+});
+
+// Hent nuværende bruger (bruges fx til at vise admin-knapper i frontend)
+router.get("/me", requireLogin, (req, res) => {
+  res.json(req.session.user);
 });
 
 export default router;

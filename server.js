@@ -60,6 +60,16 @@ app.get("/dashboard", requireLogin, (req, res) => {
   );
 });
 
+// Det er en rolle begrænset route til student dashboard, så admin kan navigere mellem de to men student roller ikke kan
+app.get(
+  "/dashboard-student-view",
+  requireLogin,
+  requireRole("admin"),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "private", "dashboard-student.html"));
+  },
+);
+
 app.post("/results", requireLogin, (req, res) => {
   const { username, quizId, score, total, time } = req.body;
   results.push({

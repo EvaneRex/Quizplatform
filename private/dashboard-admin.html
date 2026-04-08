@@ -7,5 +7,32 @@
   </head>
   <body>
     <h1>Admin</h1>
+    <a id="studentview" href="/dashboard-student-view.html"
+      >se elev dashboard</a
+    >
+    <script>
+      // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.
+      const studentView = document.getElementById("studentview");
+      studentView.addEventListener("click", async (e) => {
+        e.preventDefault();
+        studentView.addEventListener("click", async (e) => {
+          e.preventDefault();
+        });
+
+        try {
+          const res = await fetch("/dashboard-student-view", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (res.ok) {
+            window.location.href = "/dashboard-student-view";
+          }
+        } catch (err) {
+          alert("Noget gik galt, prøv igen senere");
+        }
+      });
+    </script>
   </body>
 </html>
