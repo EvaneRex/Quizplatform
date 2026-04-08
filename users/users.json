@@ -1,27 +1,47 @@
 [
   {
-    "username": "signeg12",
-    "password": "$2b$10$hfeH8vBs.WUKChKndGYJouWQd/ePYnBDIQCXmu.yvv7SYfIWYNuzS",
-    "role": "admin"
+    "id": "4286fd38-e4fc-4615-af3c-0eeadd9150ec",
+    "username": "rikke",
+    "email": "rikk052z@iba.dk",
+    "password": "$2b$10$ai9DBjlrcG6RaSJjssZp1Oo7Zo64.JIhd.NdZhXm3nHzCEh0g1DmC",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
   },
   {
+    "id": "606d6ea5-0b23-496f-81e6-6e8d350788ba",
+    "username": "Signegre12",
+    "email": "signehlg@gmail.com",
+    "password": "$2b$10$FBA4.iQJkVdy4tDQ7aXdMeTq0Y.i7RZ.b5oFjRUuC3u5s1cOdYZbe",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
+  },
+  {
+    "id": "dd3ba7d2-c6e1-4643-90bb-f3e4d14fd7b2",
     "username": "Sarah@123",
-    "password": "$2b$10$A1zh7EX7/2LfxDmJI6oaP.cu7bdqIV3rObchqB39sfFf121HtxFsW",
-    "role": "admin"
+    "email": "sarahenya2000@hotmail.dk",
+    "password": "$2b$10$GYMzpyjId3yxasYcO267WuDaDVXGEQDm2eoqMiHHz7eImyZzj7/Jm",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
   },
   {
-    "username": "Admin@123",
-    "password": "$2b$10$s8eUyczTxM2H/6yy4pX/BOT5tGq79A0ZunVasW2JwsHYBlOpetMJe",
-    "role": "admin"
+    "id": "a16530a3-0d6d-4f09-9b99-b7eefd5e372f",
+    "username": "studenttest",
+    "email": "evanerex@gmail.com",
+    "password": "$2b$10$luJM94XEbluh.zkHiqFQauDJuBZV82AjiBE6VsF2QNPubax7i5/R.",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
   },
   {
-    "username": "rikke96",
-    "password": "$2b$10$dnofhvYU7FemjxvBB5sFJOscB5OUBfui1JUnItWqLRRQ37X96I8Vy",
-    "role": "admin"
-  },
-  {
-    "username": "user1@USER",
-    "password": "$2b$10$C7ndEPBLJyuHKLH10jhnWOGEz7vUqiXfh/2.3ATJ668CitqPeRhgO",
-    "role": "student"
+    "id": "250e9ea5-e311-4a65-ba7b-634854a3c7da",
+    "username": "SigneGregersen1!",
+    "email": "bamseline.gregersen@gmail.com",
+    "password": "$2b$10$IuhsD7I0TgMXvmaUEvzjDu7CIi.UiNiuCHvo9v66FwCk0D6/zYH4C",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
   }
 ]

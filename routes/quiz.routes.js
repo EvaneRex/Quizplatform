@@ -84,7 +84,15 @@ router.post("/answer", (req, res) => {
   const question = quiz.questions[questionIndex];
   const correct = question.correct;
 
-  let mapped;
+  let mapped = null;
+
+  if (question.type === "cloze") {
+    if (Array.isArray(selected)) {
+      mapped = selected.map((i) => mapping[i]);
+    } else {
+      mapped = mapping[selected];
+    }
+  }
 
   // håndterer single vs multiple
   if (Array.isArray(selected)) {
@@ -94,15 +102,42 @@ router.post("/answer", (req, res) => {
   }
 
   let isCorrect;
+  let points = 0;
 
-  if (Array.isArray(mapped)) {
+  // CLOZE
+  if (question.type === "cloze") {
     isCorrect =
-      JSON.stringify(mapped.sort()) === JSON.stringify(correct.sort());
-  } else {
-    isCorrect = correct.includes(mapped);
+      selected.toString().trim().toLowerCase() ===
+      correct.toString().trim().toLowerCase();
+
+    points = isCorrect ? 1 : 0;
   }
 
-  res.json({ correct: isCorrect });
-});
+  // MULTIPLE
+  else if (Array.isArray(mapped)) {
+    const correctSet = correct;
 
+    const correctChosen = mapped.filter((x) => correctSet.includes(x)).length;
+    const wrongChosen = mapped.filter((x) => !correctSet.includes(x)).length;
+
+    const totalCorrect = correctSet.length;
+
+    points = correctChosen / totalCorrect - wrongChosen / totalCorrect;
+
+    if (points < 0) points = 0;
+
+    isCorrect = points === 1;
+  }
+
+  // SINGLE
+  else {
+    isCorrect = correct.includes(mapped);
+    points = isCorrect ? 1 : 0;
+  }
+
+  res.json({
+    correct: isCorrect,
+    points: points,
+  });
+});
 export default router;

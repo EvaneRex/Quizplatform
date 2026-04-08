@@ -23,38 +23,36 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     : [];
 
   const user = users.find((u) => u.username === username);
-  if (!user)
-    return res
-      .status(401)
-      .json({ message: "Brugernavn eller adgangskode er forkert" });
+  const match = user ? await bcrypt.compare(password, user.password) : false;
 
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) {
-    incrementAttempts(false);
+  if (!user || !match) {
+    incrementAttempts(false, req);
     return res
       .status(401)
       .json({ message: "Brugernavn eller adgangskode er forkert" });
   }
 
   // succesfuldt login: nulstil tæller
-  resetAttempts();
-  req.session.user = { username: user.username, role: user.role };
+  resetAttempts(req);
+  req.session.user = {
+    username: user.username,
+    role: user.role,
+    id: user.id,
+    email: user.email,
+  };
   res.json({ message: "Login succesfuldt", role: user.role });
 });
 
 // Opret bruger delen
 router.post("/opretBruger", validerOpretBruger, async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   const usersPath = "./users/users.json";
   let users = fs.existsSync(usersPath)
     ? JSON.parse(fs.readFileSync(usersPath, "utf-8"))
     : [];
 
-  if (users.find((userObj) => userObj.username === username)) {
-    return res.status(400).json({ message: "Brugeren eksistere allerede" });
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
+
   users.push({
     id: crypto.randomUUID(),
     username,
@@ -65,6 +63,8 @@ router.post("/opretBruger", validerOpretBruger, async (req, res) => {
     secret: null,
   });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+
+  res.json({ message: "Brugeren er oprettet" });
 });
 
 // Hent nuværende bruger (bruges fx til at vise admin-knapper i frontend)

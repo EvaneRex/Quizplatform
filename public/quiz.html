@@ -46,6 +46,7 @@
       //vis spørgsmål
       function showQuestion() {
         locked = false;
+
         const q = questions[currentQuestion];
 
         document.getElementById("question").innerText = q.question;
@@ -56,43 +57,75 @@
         selected = null;
         selectedMultiple = [];
 
-        q.answers.forEach((answer, index) => {
-          const btn = document.createElement("button");
-          btn.innerText = answer;
-          btn.classList.add("answer");
+        // SINGLE
+        if (q.type === "single") {
+          q.answers.forEach((answer, index) => {
+            const label = document.createElement("label");
 
-          btn.onclick = () => {
-            if (locked) return;
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = "answer";
+            input.value = index;
 
-            if (q.type === "single") {
+            input.onchange = () => {
+              if (locked) return;
               selected = index;
+            };
 
-              document
-                .querySelectorAll(".answer")
-                .forEach((b) => b.classList.remove("selected"));
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(answer));
 
-              btn.classList.add("selected");
-            }
+            answersDiv.appendChild(label);
+            answersDiv.appendChild(document.createElement("br"));
+          });
+        }
 
-            if (q.type === "multiple") {
-              if (selectedMultiple.includes(index)) {
-                selectedMultiple = selectedMultiple.filter((i) => i !== index);
-                btn.classList.remove("selected");
-              } else {
+        // MULTIPLE
+        else if (q.type === "multiple") {
+          q.answers.forEach((answer, index) => {
+            const label = document.createElement("label");
+
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.value = index;
+
+            input.onchange = () => {
+              if (locked) return;
+
+              if (input.checked) {
                 selectedMultiple.push(index);
-                btn.classList.add("selected");
+              } else {
+                selectedMultiple = selectedMultiple.filter((i) => i !== index);
               }
-            }
+            };
+
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(answer));
+
+            answersDiv.appendChild(label);
+            answersDiv.appendChild(document.createElement("br"));
+          });
+        }
+
+        // CLOZE
+        else if (q.type === "cloze") {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.placeholder = "Skriv dit svar...";
+
+          input.oninput = () => {
+            if (locked) return;
+            selected = input.value;
           };
-          answersDiv.appendChild(btn);
-          answersDiv.appendChild(document.createElement("br"));
-        });
+
+          answersDiv.appendChild(input);
+        }
 
         document.getElementById("feedback").innerText = "";
         document.getElementById("nextBtn").style.display = "none";
       }
-
       //submit svar
+
       async function submitAnswer() {
         if (locked) return;
         locked = true;
@@ -154,7 +187,7 @@
           },
           body: JSON.stringify({
             quizId,
-            score,
+            score: Math.round(score * 100) / 100,
             total: questions.length,
             time,
           }),

@@ -6,13 +6,12 @@
     <title>Dashboard - Student</title>
   </head>
   <body>
-    <h1>Velkommen til dit dashboard, [Studentens Navn]!</h1>
+    <h1>Velkommen til dit dashboard!</h1>
     <p>Her kan du se dine kommende opgaver, deadlines og meddelelser</p>
     <button id="admin-back-btn" style="display: none">
       Tilbage til admin dashboard
     </button>
-    <h1>Velkommen til Dashboard</h1>
-    <p>Her kan du administrere dine quizzer og se dine resultater.</p>
+  
 
     <!-- Aktive quiz -->
     <h2>Aktive Quizzes</h2>
@@ -29,7 +28,7 @@
     <!--Admin har: Tag quiz, upload quiz fil, slet quiz, se deltager liste med dropdown -->
 
     <script>
-      async function loadQuizzes() {
+     async function loadQuizzes() {
         const [quizRes, resultRes] = await Promise.all([
           fetch("/quiz"),
           fetch("/results/me"),
@@ -79,7 +78,7 @@
 
         results.forEach((r) => {
           const li = document.createElement("li");
-          li.innerText = `${r.quizId} - Score: ${r.score}/${r.total} - Tid: ${r.timeTaken} sekunder`;
+          li.innerText = `${r.quizId} - ${r.score}/${r.total} - ${r.timeTaken}s`;
           list.appendChild(li);
         });
       }

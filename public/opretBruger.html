@@ -31,6 +31,7 @@
       </label>
       <br />
       <button>Registrer</button>
+      <a href="/login.html">Tilbage til login</a>
 
       <!--De skal tilbage til login-->
     </form>
@@ -42,25 +43,26 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const username = form.username.value.trim();
+        const email = form.email.value.trim();
         const password = form.password.value.trim();
 
         try {
           const res = await fetch("/auth/opretBruger", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ username, email, password }),
           });
           const data = await res.json();
 
-          out.textContent = data.message;
+          message.textContent = data.message;
 
           if (res.ok) {
             setTimeout(() => {
-              window.location.href = "/dashboard.html";
+              window.location.href = "/login.html";
             }, 1000);
           }
         } catch (err) {
-          out.textContent = "Noget gik galt, prøv igen";
+          message.textContent = "Noget gik galt, prøv igen";
         }
       });
     </script>

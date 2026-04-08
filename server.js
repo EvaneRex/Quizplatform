@@ -72,6 +72,8 @@ app.get(
 
 app.post("/results", requireLogin, (req, res) => {
   const { quizId, score, total, time } = req.body;
+  const username = req.session.user.username;
+
   results.push({
     username,
     quizId,
@@ -83,7 +85,11 @@ app.post("/results", requireLogin, (req, res) => {
   res.json({ message: "Resultat gemt" });
 });
 
-app.get("/results/me", (req, res) => {
+app.get("/results/me", requireLogin, (req, res) => {
+  if (!req.session.user) {
+    return res.json([]);
+  }
+
   const username = req.session.user.username;
 
   const userResults = results.filter((result) => result.username === username);

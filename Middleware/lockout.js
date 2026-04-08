@@ -1,10 +1,11 @@
 import rateLimit from "express-rate-limit";
 
-// lås brugere ud efter 3 mislykkede loginforsøg i 15 minutter
-let attemptsCounter = 0;
+// lås brugere ud efter 3 mislykkede loginforsøg i 15 minutter (per brugernavn)
 const maxAttempts = 3;
 const lockoutDuration = 15 * 60 * 1000; // 15 minutter i millisekunder
-let lockoutTimer = null;
+
+// struktur: { [username]: { count: number, timer: Timeout | null } }
+const attempts = new Map();
 
 // isOkay skal chekke om login er fejlet,
 // så incrementAttempts kan øges hvis dette er tilfældet
@@ -15,28 +16,43 @@ function isOkay(loginSucceeded) {
 }
 
 function lockout(req, res, next) {
-  if (attemptsCounter >= maxAttempts) {
-    return res.status(403).json({ message: "Konto låst i 15 minutter." });
+  const ip = req.ip;
+
+  const userAttempts = attempts.get(ip) || 0;
+
+  if (userAttempts >= maxAttempts) {
+    return res
+      .status(403)
+      .json({ message: "For mange forsøg. Prøv igen senere." });
   }
+
   next();
 }
 
-function incrementAttempts(loginSucceeded) {
-  if (isOkay(loginSucceeded)) {
-    attemptsCounter++;
+function incrementAttempts(loginSucceeded, req) {
+  const ip = req.ip;
 
-    // start en 15-minutters timer første gang kontoen låses
-    if (attemptsCounter >= maxAttempts && !lockoutTimer) {
-      lockoutTimer = setTimeout(() => {
-        resetAttempts();
-        lockoutTimer = null;
+  if (!loginSucceeded) {
+    const current = attempts.get(ip) || 0;
+    attempts.set(ip, current + 1);
+
+    if (current + 1 >= maxAttempts) {
+      setTimeout(() => {
+        attempts.delete(ip);
       }, lockoutDuration);
     }
   }
 }
 
-function resetAttempts() {
-  attemptsCounter = 0;
+function resetAttempts(req) {
+  attempts.delete(req.ip);
+
+  const entry = attempts[username];
+  if (entry?.timer) {
+    clearTimeout(entry.timer);
+  }
+
+  delete attempts[username];
 }
 
 const loginLimiter = rateLimit({

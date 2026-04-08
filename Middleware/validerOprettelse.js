@@ -1,17 +1,17 @@
-// Skal tage info fra opretBruger.html og tjekke
-// 1) eksisterer brugeren allerede - hvis ja, så skal der være en fejlbesked
-// 2) er password stærk nok? - fejlbesked som informere om den er stærknok
-// 3) er felterne udfyldt? - fejlbesked som informere om at alle felter skal udfyldes
-// 4) er alt godkendt, så besked om at oprettelsen er lykkedes
+import fs from "fs";
+const usersPath = "./users/users.json";
 
-// Skal brugeren bruge sin email når de opretter sig?
+function getUsers() {
+  if (!fs.existsSync(usersPath)) return [];
+  return JSON.parse(fs.readFileSync(usersPath, "utf-8"));
+}
 
 const validerOprettelse = (req, res, next) => {
   let { username, password, email } = req.body;
 
   if (!username || !password || !email) {
     return res.status(400).json({
-      message: "Brugernavn, email og adgangskode skal udfyldes",
+      message: "Alle felter skal udfyldes",
     });
   }
 
@@ -25,6 +25,7 @@ const validerOprettelse = (req, res, next) => {
   const kodeRegex =
     /^(?=.*[a-zæøå])(?=.*[A-ZÆØÅ])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
+  // Tjekker om brugernavn, email og password opfylder krav, giver specifikke fejlbeskeder
   if (!brugernavnRegex.test(username)) {
     return res.status(400).json({
       message: "Ugyldigt brugernavn",
@@ -37,23 +38,18 @@ const validerOprettelse = (req, res, next) => {
     });
   }
 
-  // Vi tjekker om email og brugernavn allerede findes
-  const users = getUsers();
-
-  if (users.find((u) => u.email === email)) {
-    return res.status(400).json({
-      message: "Email findes allerede",
-    });
-  }
-  if (users.find((u) => u.username === username)) {
-    return res.status(400).json({
-      message: "Brugernavn findes allerede",
-    });
-  }
-
   if (!kodeRegex.test(password)) {
     return res.status(400).json({
       message: "Adgangskoden er ikke stærk nok",
+    });
+  }
+
+  // Vi tjekker om email og brugernavn allerede findes
+  const users = getUsers();
+
+  if (users.find((u) => u.email === email || u.username === username)) {
+    return res.status(400).json({
+      message: "Bruger eksistere allerede",
     });
   }
 

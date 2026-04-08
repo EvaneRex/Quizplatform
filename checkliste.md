@@ -9,7 +9,7 @@
 - [ ] Quiz med radio knap, checkbox og lille input tekst med 10 spørgsmål mindst
 - [ ] Admin skal kunne se alle brugernes interaktioner med platformen
   - [ ] hvem der tager hvilken quiz og hvornår, hvor langt tid det tager dem og resultat
-- [ ] Brugere skal kunne tage og se tilgængelige quizer
+- [ ] Brugere skal kunne tage og se tilgængelige quizzer
 - [ ] Se aktuelle resultater og ALLE tidligere resultater
 - [x] Point system
   - [ ] brugerne skal informeres om vilkårne enten ved hvert spørgsmål eller i starten af quizzen (tab af point etc)
