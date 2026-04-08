@@ -7,27 +7,49 @@
 // Skal brugeren bruge sin email når de opretter sig?
 
 const validerOprettelse = (req, res, next) => {
-  let { username, password, role } = req.body;
+  let { username, password, email } = req.body;
 
-  if (!username || !password) {
-    return res
-      .status(400)
-      .json({ message: "Brugernavn og adgangskode skal udfyldes" });
+  if (!username || !password || !email) {
+    return res.status(400).json({
+      message: "Brugernavn, email og adgangskode skal udfyldes",
+    });
   }
 
   req.body.role = "student";
 
   const brugernavnRegex =
-    /^(?=(?:.*[a-zæøå]){3,})(?=(?:.*\d){0,5})[a-zæøå\d!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]{1,20}$/i; // der tillades dk bogstaver, og der skal mindst være 3, og max være 5 tal, og længden af brugernavnet må max være 20 bogstaver
+    /^(?=(?:.*[a-zæøå]){3,})(?=(?:.*\d){0,5})[a-zæøå\d!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]{3,20}$/i;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const kodeRegex =
     /^(?=.*[a-zæøå])(?=.*[A-ZÆØÅ])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
   if (!brugernavnRegex.test(username)) {
-    return res.status(400).json({ message: "Brugernavn skal være..." }); // regler for brugernavn
+    return res.status(400).json({
+      message: "Ugyldigt brugernavn",
+    });
   }
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Ugyldig email",
+    });
+  }
+  const users = getUsers();
+
+  if (users.find((u) => u.email === email)) {
+    return res.status(400).json({
+      message: "Email findes allerede",
+    });
+  }
+
   if (!kodeRegex.test(password)) {
-    return res.status(400).json({ message: "Adgangskoden er ikke stærk nok" }); // skal der være en slider?
+    return res.status(400).json({
+      message: "Adgangskoden er ikke stærk nok",
+    });
   }
+
   next();
 };
 

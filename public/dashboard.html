@@ -28,21 +28,37 @@
 
     <script>
       async function loadQuizzes() {
-        const res = await fetch("/quiz");
-        const quizzes = await res.json();
+        const [quizRes, resultRes] = await Promise.all([
+          fetch("/quiz"),
+          fetch("/results/me"),
+        ]);
 
-        const list = document.getElementById("activeQuizzes");
-        list.innerHTML = "";
+        const quizzes = await quizRes.json();
+        const results = await resultRes.json();
+
+        const completedIds = results.map((r) => r.quizId);
+
+        const activeList = document.getElementById("activeQuizzes");
+        const completedList = document.getElementById("completedQuizzes");
+
+        activeList.innerHTML = "";
+        completedList.innerHTML = "";
 
         quizzes.forEach((q) => {
           const li = document.createElement("li");
 
-          li.innerHTML = `
-            ${q.title}
-            <button onclick="startQuiz('${q.id}')">Start</button>
-          `;
+          if (completedIds.includes(q.id)) {
+            const result = results.find((r) => r.quizId === q.id);
 
-          list.appendChild(li);
+            li.innerText = `${q.title} - ${result.score}/${result.total}`;
+            completedList.appendChild(li);
+          } else {
+            li.innerHTML = `
+              ${q.title}
+              <button onclick="startQuiz('${q.id}')">Start</button>
+            `;
+            activeList.appendChild(li);
+          }
         });
       }
 
@@ -51,6 +67,22 @@
       }
 
       loadQuizzes();
+
+      async function loadMyResults() {
+        const res = await fetch("/results/me");
+        const results = await res.json();
+
+        const list = document.getElementById("completedQuizzes");
+        list.innerHTML = "";
+
+        results.forEach((r) => {
+          const li = document.createElement("li");
+          li.innerText = `${r.quizId} - Score: ${r.score}/${r.total} - Tid: ${r.timeTaken} sekunder`;
+          list.appendChild(li);
+        });
+      }
+
+      loadMyResults();
     </script>
   </body>
 </html>
