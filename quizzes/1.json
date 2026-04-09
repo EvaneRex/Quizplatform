@@ -80,6 +80,12 @@
       ],
       "correct": [0, 1, 2, 3]
     },
+  
+    {
+      "type": "cloze",
+      "question": "Skriv hello word",
+      "correct": "hello world"
+    },
     {
       "type": "single",
       "question": "Hvad bruges addEventlistener til i JavaScript?",

@@ -44,11 +44,30 @@ router.get("/:id", (req, res) => {
 
   // Fjern correct + lav mapping
   const safeQuestions = quiz.questions.map((q) => {
-    // Lav svar + original index
-    const answersWithIndex = q.answers.map((text, index) => ({
-      text,
-      originalIndex: index,
-    }));
+  // CLOZE (ingen answers)
+  if (q.type === "cloze") {
+    return {
+      type: q.type,
+      question: q.question,
+      answers: [],
+      mapping: [],
+    };
+  }
+
+  const answersWithIndex = q.answers.map((text, index) => ({
+    text,
+    originalIndex: index,
+  }));
+
+  answersWithIndex.sort(() => Math.random() - 0.5);
+
+  return {
+    type: q.type,
+    question: q.question,
+    answers: answersWithIndex.map((a) => a.text),
+    mapping: answersWithIndex.map((a) => a.originalIndex),
+  };
+});
 
     // Shuffle svar
     answersWithIndex.sort(() => Math.random() - 0.5);
@@ -68,7 +87,6 @@ router.get("/:id", (req, res) => {
     title: quiz.title,
     questions: safeQuestions,
   });
-});
 
 router.post("/answer", (req, res) => {
   const { quizId, questionIndex, selected, mapping } = req.body;
