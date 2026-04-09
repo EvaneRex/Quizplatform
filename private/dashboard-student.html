@@ -10,7 +10,6 @@
     </script>
   </head>
   <body>
-    <header id="header"></header>
     <h1>Velkommen til dit dashboard!</h1>
     <p>Her kan du se dine kommende opgaver, deadlines og meddelelser</p>
     <button id="admin-back-btn" style="display: none">
@@ -23,10 +22,18 @@
       <ul id="activeQuizzes"></ul>
 
     <h2>Dine gennemførte Quizzes</h2>
-    <ul id="completedQuizzes"></ul>
+    <table border="1" id="completedQuizzes">
+      <thead>
+        <tr>
+          <th>Quiz ID</th>
+          <th>Quiz navn</th>
+          <th>Korrekt</th>
+          <th>Tid</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-      <h3>Alle resultater</h3>
-      <ul id="allResults"></ul>
     </div>
 
     <!--Almindelig bruger har: Start quiz, se resultat, tag quiz igen -->
@@ -45,24 +52,33 @@
         const completedIds = results.map((r) => r.quizId);
 
         const activeList = document.getElementById("activeQuizzes");
-        const completedList = document.getElementById("completedQuizzes");
+        const completedTable = document.querySelector("#completedQuizzes tbody");
 
         activeList.innerHTML = "";
-        completedList.innerHTML = "";
+        completedTable.innerHTML = "";
 
         quizzes.forEach((q) => {
-          const li = document.createElement("li");
-
           if (completedIds.includes(q.id)) {
             const result = results.find((r) => r.quizId === q.id);
 
-            li.innerText = `${q.title} - ${result.score}/${result.total}`;
-            completedList.appendChild(li);
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+              <td>${q.id}</td>
+              <td>${q.title}</td>
+              <td>${result.score}/${result.total}</td>
+              <td>${result.time}s</td>
+            `;
+
+            completedTable.appendChild(tr);
           } else {
+            const li = document.createElement("li");
+
             li.innerHTML = `
               ${q.title}
               <button onclick="startQuiz('${q.id}')">Start</button>
             `;
+
             activeList.appendChild(li);
           }
         });
