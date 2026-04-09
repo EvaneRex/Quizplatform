@@ -160,7 +160,7 @@
         //UI feedback
         if (data.correct) {
           document.getElementById("feedback").innerText = "Korrekt!";
-          score += 1;
+          score += data.points;
         } else {
           document.getElementById("feedback").innerText = "Forkert!";
         }
@@ -203,7 +203,7 @@
             })),
           }),
         });
-        window.location.href = "/das";
+        window.location.href = "/dashboard";
       }
 
       loadQuiz();

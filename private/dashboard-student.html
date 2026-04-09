@@ -19,6 +19,7 @@
 
     <h2>Dine gennemførte Quizzes</h2>
     <ul id="completedQuizzes"></ul>
+    <ul id="myResults"></ul>
 
       <h3>Alle resultater</h3>
       <ul id="allResults"></ul>
@@ -76,7 +77,7 @@
 
         const data = await res.json();
 
-        const list = document.getElementById("completedQuizzes");
+        const list = document.getElementById("myResults");
         list.innerHTML = "";
 
         data.forEach((r) => {
@@ -92,7 +93,8 @@
         });
       }
 
-
+      loadMyResults();
+      
       // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
       fetch("/auth/me")
         .then((res) => (res.ok ? res.json() : null))
