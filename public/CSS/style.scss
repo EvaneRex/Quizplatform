@@ -1,5 +1,8 @@
 $primaryColor: #7ebc89;
 $secondaryColor: #74F18B;
+$headerColor: #45b64c;
+$linkColor: #206E83;
+$linkHoverColor: #2394b4;
 $backgroundColor: #E6DFE7;
 $fontColor: #4e4b5c;
 
@@ -26,7 +29,7 @@ button {
 
 #header {
   padding: 10px 20px;
-  background-color: $primaryColor;
+  background-color: $headerColor;
   color: $fontColor;
   border-radius: 10px;
 }
@@ -59,9 +62,11 @@ button:hover {
 
 }
 
+
+
 #quizList {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 0 0 100px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -87,7 +92,7 @@ button:hover {
 }
 
 a {
-  color: $fontColor;
+  color: $linkColor;
   text-decoration: none;
   font-weight: bold;
 }
@@ -97,6 +102,16 @@ a::after {
 }
 a:hover {
     text-decoration: underline;
+}
+
+#studentview {
+  background-color: $linkColor;
+ 
+}
+
+#studentview:hover {
+  background-color: $linkHoverColor;
+  text-decoration: none;
 }
 
 input[type="text"],
