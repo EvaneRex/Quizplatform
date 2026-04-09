@@ -60,7 +60,6 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     });
 
     return res.json({
-      message: "MFA påkrævet – scan QR-kode med Authenticator-app",
       mfaRequired: true,
       otpauthUrl,
     });
@@ -74,9 +73,6 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
   };
   res.json({ message: "Login succesfuldt", role: user.role });
 });
-
-
-// Tilføjet route til at verificere MFA-kode og fuldføre loginprocessen
 
 router.post("/verify-mfa", (req, res) => {
   const { code } = req.body;
@@ -98,7 +94,7 @@ router.post("/verify-mfa", (req, res) => {
     secret: user.secret,
     encoding: "base32",
     token: code,
-    window: 2, 
+    window: 2,
   });
 
   if (!verified) {
