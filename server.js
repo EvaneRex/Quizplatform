@@ -26,7 +26,7 @@ app.use(
       httpOnly: true,
       secure: false, // I production bør dette sættes til true for at sikre, at cookies kun sendes over HTTPS
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60, // 1 time
+      // maxAge: 1000 * 60 * 60, // 1 time
     },
   }),
 );
@@ -109,18 +109,47 @@ app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
   res.json(results);
 });
 
-
-
 app.use("/quiz", quizRoutes);
-// ----- 2FA -----
+
+// ----- Upload quiz -----
+app.post("/quiz/upload", requireLogin, requireRole("admin"), (req, res) => {
+  const quiz = req.body;
+
+  const valid = validateQuiz(quiz);
+  if (!valid) {
+    console.error("Quiz validation errors:", validateQuiz.errors);
+    return res.status(400).json({
+      message: "Ugyldigt quiz-format",
+      errors: validateQuiz.errors,
+    });
+  }
+
+  try {
+    const quizFolder = path.join(__dirname, "quizzes");
+    if (!fs.existsSync(quizFolder)) {
+      fs.mkdirSync(quizFolder, { recursive: true });
+    }
+
+    const id = Date.now().toString();
+    const filePath = path.join(quizFolder, id + ".json");
+
+    fs.writeFileSync(filePath, JSON.stringify(quiz, null, 2), "utf-8");
+
+    res.json({ message: "Quiz uploadet", id });
+  } catch (err) {
+    console.error("Fejl ved gemning af quiz:", err);
+    res.status(500).json({ message: "Kunne ikke gemme quiz" });
+  }
+});
 
 // ----- LOGOUT -----
 app.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ message: "Kunne ikke logge ud" });
+      console.error("Fejl ved logout:", err);
+      return res.sendStatus(500);
     }
-    res.json({ message: "Du er logget ud" });
+    res.sendStatus(204);
   });
 });
 

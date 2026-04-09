@@ -1,14 +1,5 @@
 [
   {
-    "id": "868284c2-8316-4fee-b497-5daa4a658efe",
-    "username": "Rikke@123",
-    "email": "rikk052z@iba.dk",
-    "password": "$2b$10$/fcrzrMWKh/o9gUV/LAc0ei3yq1.rkfzZRCvi0CjFFjlZ1Zb0mmJO",
-    "role": "student",
-    "twoFactorEnabled": true,
-    "secret": "JM3DK6DNKRYXSYKSIN3VO6KCPU7DAMCH"
-  },
-  {
     "id": "50a9559e-ee01-45e0-9abd-0834a12200aa",
     "username": "Signehlg1!",
     "email": "SIGNE13@gmail.com",
@@ -16,5 +7,14 @@
     "role": "student",
     "twoFactorEnabled": true,
     "secret": "GIYWQWZZERDGORDQLNMFIRDTKYYHO6LB"
+  },
+  {
+    "id": "c6b70073-ee4b-451e-87ef-5d545308a5cc",
+    "username": "Rikke@123",
+    "email": "rikk052z@iba.dk",
+    "password": "$2b$10$.HBSbiM7Lx.e914kIPY1sOzr6bvvRq/8h8Ze5cGRxumO6XbwadkH6",
+    "role": "student",
+    "twoFactorEnabled": true,
+    "secret": "K5ITCNCVK53VI7LYJJKHWJBUEMYDKV2I"
   }
 ]

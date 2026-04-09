@@ -38,7 +38,7 @@
       <a href="opretBruger.html">Ikke en bruger?</a>
 
       <div id="mfaSection" style="display: none">
-        <p>Scan QR-kode i Authenticator-app eller indtast kode:</p>
+        <p>Scan QR-kode i Authenticator-app og indtast kode:</p>
         <canvas id="qrcode" height="300" width="300"></canvas>
         <input id="mfaCode" placeholder="6-cifret kode" />
         <button id="verifyMfa">Verificer</button>
@@ -50,33 +50,51 @@
         const mfaSection = document.getElementById("mfaSection");
         const qrcodeCanvas = document.getElementById("qrcode");
         const verifyBtn = document.getElementById("verifyMfa");
-        let currentSecret = null;
+
+        mfaSection.style.display = "none";
 
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
           const username = form.username.value;
           const password = form.password.value;
 
-          const res = await fetch("/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ username, password }),
-          });
-
-          const data = await res.json();
-          out.textContent = data.message;
-
-          if (!data.mfaRequired) {
-            window.location.href = "/dashboard";
-            return;
-          }
-
-          mfaSection.style.display = "block";
-          if (data.otpauthUrl) {
-            QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
-              if (err) console.error(err);
+          try {
+            const res = await fetch("/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              body: JSON.stringify({ username, password }),
             });
+
+            const data = await res.json();
+            out.textContent = data.message;
+
+            if (!res.ok) {
+              form.username.value = "";
+              form.password.value = "";
+              return;
+            }
+
+            if (data.mfaRequired) {
+              form.style.display = "none";
+              form.username.value = "";
+              form.password.value = "";
+
+              mfaSection.style.display = "block";
+              if (data.otpauthUrl) {
+                QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
+                  if (err) console.error(err);
+                });
+              }
+              return;
+            }
+
+            window.location.href = "/dashboard";
+          } catch (err) {
+            console.error(err);
+            out.textContent = "Noget gik galt med login";
+            form.username.value = "";
+            form.password.value = "";
           }
         });
 
@@ -92,7 +110,6 @@
             });
 
             const data = await res.json();
-
             out.textContent = data.message;
 
             if (res.ok) {
@@ -100,7 +117,7 @@
             }
           } catch (err) {
             console.error(err);
-            out.textContent = "Noget gik galt";
+            out.textContent = "Noget gik galt ved MFA-verifikation";
           }
         });
       </script>
