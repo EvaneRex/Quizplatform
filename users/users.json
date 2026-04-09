@@ -22,7 +22,7 @@
     "username": "Siggre01!",
     "email": "siggre01@iba.dk",
     "password": "$2b$10$vjcbLrrCxkvQcDQyhzRn6eaBUSICxjkq5tzWFlwG1a0E4pt1MKzhy",
-    "role": "student",
+    "role": "admin",
     "twoFactorEnabled": true,
     "secret": "FBKDEMDFM5AFISKWGU2TM6SAOYXG432M"
   }

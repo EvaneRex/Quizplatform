@@ -73,6 +73,7 @@ app.get(
 
 app.post("/results", requireLogin, (req, res) => {
   const { quizId, score, total, time } = req.body;
+  const userId = req.session.user.id;
   const username = req.session.user.username;
 
   const quizPath = path.join(__dirname, "quizzes", quizId + ".json");
@@ -85,6 +86,7 @@ app.post("/results", requireLogin, (req, res) => {
   }
 
   results.push({
+    userId,
     username,
     quizId,
     quizName, 
@@ -93,6 +95,9 @@ app.post("/results", requireLogin, (req, res) => {
     time,
     date: new Date(),
   });
+
+    console.log("SESSION USER:", req.session.user);
+
 
   res.json({ message: "Resultat gemt" });
 });

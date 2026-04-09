@@ -19,7 +19,21 @@
 
     <button onclick="uploadQuiz()">Upload quiz</button>
 
-    <button></button>
+    <button></button> <!--what is this???-->
+
+    <table border="1" id="allResults">
+      <thead>
+        <tr>
+          <th>Bruger ID</th>
+          <th>Brugernavn</th>
+          <th>Quiz ID</th>
+          <th>Quiz navn</th>
+          <th>Korrekt</th>
+          <th>Tid</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
     <script>
       // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.
@@ -52,25 +66,20 @@
 
         const data = await res.json();
 
-        const list = document.getElementById("allResults");
-        list.innerHTML = "";
+        const table = document.querySelector("#allResults tbody");
+        table.innerHTML = "";
 
         data.forEach((r, index) => {
-          const li = document.createElement("li");
-
-          li.innerHTML = `
-          <strong>${r.username}</strong> - Quiz ${r.quizId}
-          <br>
-          Quiz: ${r.quizName} ${r.quizId} <br>
-          Score: ${r.score}/${r.total}
-          <br>
-          Tid: ${r.time}s
-          <br>
-          <button onclick="toggleDetails(${index})">Vis svar</button>
-          <div id="details-${index}" style="display:none;"></div>
-        `;
-
-          list.appendChild(li);
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r.userId}</td>
+            <td>${r.username}</td>
+            <td>${r.quizId}</td>
+            <td>${r.quizName}</td>
+            <td>${r.score}/${r.total}</td>
+            <td>${r.time}s</td>
+          `;
+          table.appendChild(tr);
         });
       }
 
