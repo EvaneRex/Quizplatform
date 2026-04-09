@@ -14,7 +14,7 @@
     "email": "SIGNE13@gmail.com",
     "password": "$2b$10$hwDCjUmEmKaRhJrfzLGbx.66Q6lZ1i4BMrBrnvFF7LLESIsZoKyhO",
     "role": "student",
-    "twoFactorEnabled": false,
+    "twoFactorEnabled": true,
     "secret": "GIYWQWZZERDGORDQLNMFIRDTKYYHO6LB"
   }
 ]

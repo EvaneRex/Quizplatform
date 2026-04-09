@@ -75,6 +75,51 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
   res.json({ message: "Login succesfuldt", role: user.role });
 });
 
+router.post("/verify-mfa", (req, res) => {
+  const { code } = req.body;
+
+  const userId = req.session.mfaUserId;
+
+  if (!userId) {
+    return res.status(400).json({ message: "Ingen MFA session" });
+  }
+
+  const users = JSON.parse(fs.readFileSync("./users/users.json", "utf-8"));
+  const user = users.find((u) => u.id === userId);
+
+  if (!user || !user.secret) {
+    return res.status(400).json({ message: "MFA ikke opsat" });
+  }
+
+  const verified = speakeasy.totp.verify({
+    secret: user.secret,
+    encoding: "base32",
+    token: code,
+    window: 2, 
+  });
+
+  if (!verified) {
+    return res.status(401).json({ message: "Forkert kode" });
+  }
+
+  user.twoFactorEnabled = true;
+  fs.writeFileSync("./users/users.json", JSON.stringify(users, null, 2));
+
+  req.session.user = {
+    username: user.username,
+    role: user.role,
+    id: user.id,
+    email: user.email,
+  };
+
+  delete req.session.mfaUserId;
+
+  // 🔥 MEGET VIGTIG
+  req.session.save(() => {
+    res.json({ message: "Login succesfuldt", role: user.role });
+  });
+});
+
 // Opret bruger delen
 router.post("/opretBruger", validerOpretBruger, async (req, res) => {
   const { username, email, password } = req.body;
