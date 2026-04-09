@@ -74,13 +74,14 @@
             input.name = "answer";
             input.value = index;
 
-            input.oninput = () => {
+            input.onchange = () => {
               if (locked) return;
               selected = index;
             };
 
             label.appendChild(input);
-            label.innerHTML += answer;
+            label.appendChild(document.createTextNode(" " + answer));
+
             answersDiv.appendChild(label);
             answersDiv.appendChild(document.createElement("br"));
           });
@@ -106,7 +107,7 @@
             };
 
             label.appendChild(input);
-            label.innerHTML += answer;
+            label.appendChild(document.createTextNode(" " + answer));
             answersDiv.appendChild(label);
             answersDiv.appendChild(document.createElement("br"));
           });
@@ -170,12 +171,19 @@
         const data = await res.json();
 
         //UI feedback
-        if (data.correct) {
-          document.getElementById("feedback").innerText = "Korrekt!";
-          score += data.points;
+        score += data.points;
+
+        let feedbackText = "";
+
+        if (data.points === 1) {
+          feedbackText = "Korrekt!";
+        } else if (data.points > 0) {
+          feedbackText = "Delvist korrekt!";
         } else {
-          document.getElementById("feedback").innerText = "Forkert!";
+          feedbackText = "Forkert!";
         }
+
+        document.getElementById("feedback").innerText = feedbackText;
 
         userAnswers[currentQuestion] = {
           question: q.question,
@@ -200,7 +208,10 @@
 
       //afslut quiz
       async function finishQuiz() {
-        const time = Math.floor((Date.now() - startTime) / 1000);
+        const endTime = Date.now();
+        const time = startTime
+          ? Math.floor((Date.now() - startTime) / 1000)
+          : 0;
 
         alert(
           `Færdig!\nscore: ${score}/${questions.length}\ntid: ${time} sekunder`,
@@ -216,6 +227,7 @@
             score: Math.round(score * 100) / 100,
             total: questions.length,
             time,
+            startTime: new Date(startTime).toISOString(),
             answers: userAnswers,
           }),
         });

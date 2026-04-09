@@ -36,4 +36,4 @@
 - [x] Quiz skal laves med min. 10 spørgsmål (MANGLER CLOZE)
 - [x] Sikre at student ikke kan tilgå admin dashboard
 - [x] Ratelimiting (INDEN AFLEVERING RET TIL 5 IGEN FRA 50)
-- [ ] Admin og student dashboard skal opsættes i HTML
+- [x] Admin og student dashboard skal opsættes i HTML

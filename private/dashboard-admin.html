@@ -36,6 +36,7 @@
           <th>Quiz navn</th>
           <th>Korrekt</th>
           <th>Tid</th>
+          <th>Starttid</th>
           <th>Svar</th>
         </tr>
       </thead>
@@ -116,6 +117,7 @@
           <td>${r.quizName}</td>
           <td>${r.score}/${r.total}</td>
           <td>${r.time}s</td>
+          <td>${new Date(r.startTime).toLocaleString()}</td>
           <td><button onclick="toggleDetails(${index})">Se svar</button></td>
         `;
 

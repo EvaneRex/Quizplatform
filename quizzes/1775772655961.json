@@ -1,0 +1,161 @@
+{
+  "title": "JavaScript Intermediary",
+  "questions": [
+    {
+      "type": "single",
+      "question": "Hvad returnerer typeof null i JavaScript?",
+      "answers": [
+        "null",
+        "object",
+        "undefined",
+        "number"
+      ],
+      "correct": [
+        1
+      ]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af følgende er primitive datatyper i JavaScript?",
+      "answers": [
+        "string",
+        "number",
+        "boolean",
+        "object"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad gør Array.isArray()?",
+      "answers": [
+        "Tjekker om noget er en array",
+        "Laver en ny array",
+        "Sorterer en array",
+        "Fjerner elementer fra en array"
+      ],
+      "correct": [
+        0
+      ]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke metoder kan bruges på arrays?",
+      "answers": [
+        "map()",
+        "filter()",
+        "reduce()",
+        "parseInt()"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad er resultatet af 2 + '2'?",
+      "answers": [
+        "4",
+        "22",
+        "NaN",
+        "undefined"
+      ],
+      "correct": [
+        1
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad bruges '===' til?",
+      "answers": [
+        "Sammenligner kun værdi",
+        "Sammenligner værdi og type",
+        "Tildeler værdi",
+        "Negerer en værdi"
+      ],
+      "correct": [
+        1
+      ]
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af disse er gyldige måder at deklarere en funktion på?",
+      "answers": [
+        "function test() {}",
+        "const test = () => {}",
+        "let test = function() {}",
+        "function = test() {}"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad gør setTimeout()?",
+      "answers": [
+        "Kører kode gentagne gange",
+        "Kører kode efter en forsinkelse",
+        "Stopper en funktion",
+        "Genstarter siden"
+      ],
+      "correct": [
+        1
+      ]
+    },
+    {
+      "type": "cloze",
+      "question": "Skriv de tre nøgleord der bruges til at deklarere variabler i JavaScript",
+      "correct": "var, let, const"
+    },
+    {
+      "type": "multiple",
+      "question": "Hvilke af følgende giver true?",
+      "answers": [
+        "1 == '1'",
+        "1 === '1'",
+        "true == 1",
+        "false == 0"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad gør JSON.stringify()?",
+      "answers": [
+        "Konverterer JSON til objekt",
+        "Konverterer objekt til JSON string",
+        "Parser JSON",
+        "Validerer JSON"
+      ],
+      "correct": [
+        1
+      ]
+    },
+    {
+      "type": "single",
+      "question": "Hvad gør JSON.parse()?",
+      "answers": [
+        "Konverterer objekt til string",
+        "Konverterer JSON string til objekt",
+        "Sletter JSON data",
+        "Sender JSON til server"
+      ],
+      "correct": [
+        1
+      ]
+    }
+  ]
+}

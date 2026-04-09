@@ -85,7 +85,7 @@ app.get(
 
 app.post("/results", requireLogin, (req, res) => {
   try {
-    const { quizId, score, total, time, answers } = req.body;
+    const { quizId, score, total, time, startTime, answers } = req.body;
     const userId = req.session.user.id;
     const username = req.session.user.username;
 
@@ -120,6 +120,7 @@ app.post("/results", requireLogin, (req, res) => {
       score,
       total,
       time,
+      startTime,
       answers: enrichedAnswers,
       date: new Date(),
     });

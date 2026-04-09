@@ -100,7 +100,7 @@
         "// Dette er en kommentar",
         "/* Dette er en kommentar */",
         "# Dette er en kommentar",
-        "<!-- Dette er en kommentar -->"
+        "!-- Dette er en kommentar --"
       ],
       "correct": [0, 1]
     },
