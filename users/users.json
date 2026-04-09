@@ -25,5 +25,14 @@
     "role": "student",
     "twoFactorEnabled": false,
     "secret": null
+  },
+  {
+    "id": "50a9559e-ee01-45e0-9abd-0834a12200aa",
+    "username": "Signehlg1!",
+    "email": "SIGNE13@gmail.com",
+    "password": "$2b$10$hwDCjUmEmKaRhJrfzLGbx.66Q6lZ1i4BMrBrnvFF7LLESIsZoKyhO",
+    "role": "student",
+    "twoFactorEnabled": false,
+    "secret": null
   }
 ]
