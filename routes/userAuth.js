@@ -75,6 +75,9 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
   res.json({ message: "Login succesfuldt", role: user.role });
 });
 
+
+// Tilføjet route til at verificere MFA-kode og fuldføre loginprocessen
+
 router.post("/verify-mfa", (req, res) => {
   const { code } = req.body;
 
@@ -114,7 +117,6 @@ router.post("/verify-mfa", (req, res) => {
 
   delete req.session.mfaUserId;
 
-  // 🔥 MEGET VIGTIG
   req.session.save(() => {
     res.json({ message: "Login succesfuldt", role: user.role });
   });
