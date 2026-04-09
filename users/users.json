@@ -13,7 +13,7 @@
     "username": "Rikke@123",
     "email": "rikk052z@iba.dk",
     "password": "$2b$10$.HBSbiM7Lx.e914kIPY1sOzr6bvvRq/8h8Ze5cGRxumO6XbwadkH6",
-    "role": "student",
+    "role": "admin",
     "twoFactorEnabled": true,
     "secret": "K5ITCNCVK53VI7LYJJKHWJBUEMYDKV2I"
   }
