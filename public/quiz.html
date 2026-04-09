@@ -135,6 +135,13 @@
         const selectedAnswer =
           q.type === "multiple" ? selectedMultiple : selected;
 
+        // LÅS INPUTS
+        document.querySelectorAll("input").forEach((input) => {
+          input.disabled = true;
+        });
+
+        locked = true;
+
         const res = await fetch("/quiz/answer", {
           method: "POST",
           headers: {
