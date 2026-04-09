@@ -17,12 +17,15 @@
     >
     <h1>Admin</h1>
 
-    <form action="/quiz/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file" accept=".xlsx, .xls, .csv" />
-      <button id="uploadBtn">Upload quiz</button>
+    <form
+      id="uploadForm"
+      action="/quiz/upload"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="file" accept=".json, .xml" required />
+      <button type="submit">Upload quiz</button>
     </form>
-
-    <button></button> <!--what is this???-->
 
     <table border="1" id="allResults">
       <thead>
@@ -39,6 +42,32 @@
     </table>
 
     <script>
+      const uploadForm = document.getElementById("uploadForm");
+
+      uploadForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const file = uploadForm.file.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          const res = await fetch("/quiz/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await res.json();
+
+          uploadForm.reset();
+
+          loadQuizFiles();
+        } catch (err) {
+          alert("Fejl ved upload");
+          uploadForm.reset();
+        }
+      });
+
       // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.
       const studentView = document.getElementById("studentview");
       studentView.addEventListener("click", async (e) => {
