@@ -44,7 +44,7 @@
     </table>
 
     <script>
-      async function loadQuizzes() {
+      async function loadQuizzesAdmin() {
         try {
           const res = await fetch("/quiz/list");
           if (!res.ok) throw new Error("Kunne ikke hente quizzer");
@@ -70,11 +70,12 @@
             deleteBtn.addEventListener("click", async () => {
               if (!confirm("Er du sikker på du vil slette?")) return;
 
-              await fetch("/quiz/" + quiz, {
-                method: "DELETE",
-              });
-
-              loadQuizzes();
+              const delRes = await fetch("/quiz/" + quiz, { method: "DELETE" });
+              if (!delRes.ok) {
+                alert("Kunne ikke slette quizzen");
+                return;
+              }
+              loadQuizzesAdmin(); // opdater listen
             });
 
             li.appendChild(deleteBtn);
@@ -82,9 +83,9 @@
           });
         } catch (err) {
           console.error(err);
+          alert(err.message);
         }
       }
-
       // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.
       const studentView = document.getElementById("studentview");
       studentView.addEventListener("click", async (e) => {
@@ -197,7 +198,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const uploadForm = document.getElementById("uploadForm");
-        loadQuizzes();
+        loadQuizzesAdmin();
         loadAllResults();
 
         uploadForm.addEventListener("submit", async (e) => {
