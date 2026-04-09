@@ -32,7 +32,7 @@
 - [x] Login skal fungere sikkert
 - [x] Adgangskode skal hashes
 - [x] Quiz spørgsmål skal have random rækkefølge
-- [ ] Quiz filerne skal saniteres, spørgsmål og svar tekst må kun indeholde HTML-tags som skal sendes til klienten
+- [x] Quiz filerne skal saniteres, spørgsmål og svar tekst må kun indeholde HTML-tags som skal sendes til klienten
 - [x] Quiz skal laves med min. 10 spørgsmål (MANGLER CLOZE)
 - [x] Sikre at student ikke kan tilgå admin dashboard
 - [x] Ratelimiting (INDEN AFLEVERING RET TIL 5 IGEN FRA 50)

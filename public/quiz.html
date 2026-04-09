@@ -107,7 +107,7 @@
             };
 
             label.appendChild(input);
-            label.innerHTHML += answer;
+            label.innerHTML += answer;
             answersDiv.appendChild(label);
             answersDiv.appendChild(document.createElement("br"));
           });
@@ -155,7 +155,7 @@
           },
           body: JSON.stringify({
             quizId,
-            questionIndex: currentQuestion,
+            questionId: q.id,
             selected: selectedAnswer,
             mapping: q.mapping,
           }),
