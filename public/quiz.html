@@ -141,6 +141,15 @@
         const selectedAnswer =
           q.type === "multiple" ? selectedMultiple : selected;
 
+        if (
+          selectedAnswer === null ||
+          (Array.isArray(selectedAnswer) && selectedAnswer.length === 0)
+        ) {
+          alert("Vælg venligst et svar");
+          locked = false;
+          return;
+        }
+
         // LÅS INPUTS
         document.querySelectorAll("input").forEach((input) => {
           input.disabled = true;
@@ -213,8 +222,10 @@
           ? Math.floor((Date.now() - startTime) / 1000)
           : 0;
 
+        const roundedScore = Math.round(score * 100) / 100;
+
         alert(
-          `Færdig!\nscore: ${score}/${questions.length}\ntid: ${time} sekunder`,
+          `Færdig!\nscore: ${roundedScore}/${questions.length}\ntid: ${time} sekunder`,
         );
 
         await fetch("/results", {

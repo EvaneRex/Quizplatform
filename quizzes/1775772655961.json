@@ -4,30 +4,14 @@
     {
       "type": "single",
       "question": "Hvad returnerer typeof null i JavaScript?",
-      "answers": [
-        "null",
-        "object",
-        "undefined",
-        "number"
-      ],
-      "correct": [
-        1
-      ]
+      "answers": ["null", "object", "undefined", "number"],
+      "correct": [1]
     },
     {
       "type": "multiple",
       "question": "Hvilke af følgende er primitive datatyper i JavaScript?",
-      "answers": [
-        "string",
-        "number",
-        "boolean",
-        "object"
-      ],
-      "correct": [
-        0,
-        1,
-        2
-      ]
+      "answers": ["string", "number", "boolean", "object"],
+      "correct": [0, 1, 2]
     },
     {
       "type": "single",
@@ -38,37 +22,19 @@
         "Sorterer en array",
         "Fjerner elementer fra en array"
       ],
-      "correct": [
-        0
-      ]
+      "correct": [0]
     },
     {
       "type": "multiple",
       "question": "Hvilke metoder kan bruges på arrays?",
-      "answers": [
-        "map()",
-        "filter()",
-        "reduce()",
-        "parseInt()"
-      ],
-      "correct": [
-        0,
-        1,
-        2
-      ]
+      "answers": ["map()", "filter()", "reduce()", "parseInt()"],
+      "correct": [0, 1, 2]
     },
     {
       "type": "single",
       "question": "Hvad er resultatet af 2 + '2'?",
-      "answers": [
-        "4",
-        "22",
-        "NaN",
-        "undefined"
-      ],
-      "correct": [
-        1
-      ]
+      "answers": ["4", "22", "NaN", "undefined"],
+      "correct": [1]
     },
     {
       "type": "single",
@@ -79,9 +45,7 @@
         "Tildeler værdi",
         "Negerer en værdi"
       ],
-      "correct": [
-        1
-      ]
+      "correct": [1]
     },
     {
       "type": "multiple",
@@ -92,11 +56,7 @@
         "let test = function() {}",
         "function = test() {}"
       ],
-      "correct": [
-        0,
-        1,
-        2
-      ]
+      "correct": [0, 1, 2]
     },
     {
       "type": "single",
@@ -107,9 +67,7 @@
         "Stopper en funktion",
         "Genstarter siden"
       ],
-      "correct": [
-        1
-      ]
+      "correct": [1]
     },
     {
       "type": "cloze",
@@ -119,17 +77,8 @@
     {
       "type": "multiple",
       "question": "Hvilke af følgende giver true?",
-      "answers": [
-        "1 == '1'",
-        "1 === '1'",
-        "true == 1",
-        "false == 0"
-      ],
-      "correct": [
-        0,
-        2,
-        3
-      ]
+      "answers": ["1 == '1'", "1 === '1'", "true == 1", "false == 0"],
+      "correct": [0, 2, 3]
     },
     {
       "type": "single",
@@ -140,9 +89,7 @@
         "Parser JSON",
         "Validerer JSON"
       ],
-      "correct": [
-        1
-      ]
+      "correct": [1]
     },
     {
       "type": "single",
@@ -153,9 +100,7 @@
         "Sletter JSON data",
         "Sender JSON til server"
       ],
-      "correct": [
-        1
-      ]
+      "correct": [1]
     }
   ]
 }

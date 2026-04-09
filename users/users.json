@@ -34,5 +34,14 @@
     "role": "admin",
     "twoFactorEnabled": true,
     "secret": "OZWSGV3SLVUC4KRZIN4DMWZFEU6FOIJV"
+  },
+  {
+    "id": "da7778e2-1a9f-4cc5-a7a3-22f9558c2033",
+    "username": "1234@Test",
+    "email": "evanerex@gmail.com",
+    "password": "$2b$10$3IGf3sm9HKUz.21iikH17O8gladH6ee4SzqZo5aFq.Cq.mVt7VkX6",
+    "role": "student",
+    "twoFactorEnabled": true,
+    "secret": "JQ7EIVSGKRIUCYLJKNWSMPDLENVWW22D"
   }
 ]

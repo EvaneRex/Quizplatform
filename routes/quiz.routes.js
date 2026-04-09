@@ -165,13 +165,18 @@ router.post("/answer", (req, res) => {
 
     const wrongChosen = mapped.filter((x) => !correctSet.includes(x)).length;
 
-    const totalCorrect = correctSet.length || 1;
+    const totalCorrect = correctSet.length;
 
-    points = correctChosen / totalCorrect - wrongChosen / totalCorrect;
+    let points = (correctChosen - wrongChosen) / totalCorrect;
 
-    if (points < 0) points = 0;
+    points = Math.round(points * 2) / 2;
 
-    isCorrect = points === 1;
+    const isCorrect = points === 1;
+
+    return res.json({
+      correct: isCorrect,
+      points: points,
+    });
   }
 
   // SINGLE

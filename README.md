@@ -2,6 +2,8 @@
 
 ## Dependensies
 
+Install all these
+
 ajv
 bcrypt
 crypto
