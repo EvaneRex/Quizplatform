@@ -21,7 +21,7 @@ button {
 
 #header {
   padding: 10px 20px;
-  background-color: #7ebc89;
+  background-color: #45b64c;
   color: #4e4b5c;
   border-radius: 10px;
 }
@@ -55,7 +55,7 @@ button:hover {
 
 #quizList {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 0 0 100px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ button:hover {
 }
 
 a {
-  color: #4e4b5c;
+  color: #206E83;
   text-decoration: none;
   font-weight: bold;
 }
@@ -92,6 +92,15 @@ a::after {
 
 a:hover {
   text-decoration: underline;
+}
+
+#studentview {
+  background-color: #206E83;
+}
+
+#studentview:hover {
+  background-color: #2394b4;
+  text-decoration: none;
 }
 
 input[type=text],
