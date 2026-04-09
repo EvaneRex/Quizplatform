@@ -26,7 +26,7 @@ app.use(
       httpOnly: true,
       secure: false, // I production bør dette sættes til true for at sikre, at cookies kun sendes over HTTPS
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60, // 1 time
+      // maxAge: 1000 * 60 * 60, // 1 time
     },
   }),
 );
