@@ -3,7 +3,7 @@
 ## Frontend
 
 - [x] Login-form fungerer
-  - [ ] Logud manlger men er gjort klar i server
+  - [x] Logud - mangler bekræftelse om man er sikker på man vil logge ud
 - [x] Oprettelse af bruger
   - [x] tilføje MFA
   - [x] email
