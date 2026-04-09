@@ -105,11 +105,14 @@ router.post("/answer", (req, res) => {
   let mapped = null;
 
   if (question.type === "cloze") {
-    if (Array.isArray(selected)) {
-      mapped = selected.map((i) => mapping[i]);
-    } else {
-      mapped = mapping[selected];
-    }
+    const isCorrect =
+      selected.toString().trim().toLowerCase() ===
+      question.correct.toString().trim().toLowerCase();
+
+    return res.json({
+      correct: isCorrect,
+      points: isCorrect ? 1 : 0,
+    });
   }
 
   // håndterer single vs multiple
