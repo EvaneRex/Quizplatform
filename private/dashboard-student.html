@@ -19,7 +19,6 @@
 
     <h2>Dine gennemførte Quizzes</h2>
     <ul id="completedQuizzes"></ul>
-    <ul id="myResults"></ul>
 
       <h3>Alle resultater</h3>
       <ul id="allResults"></ul>
@@ -70,31 +69,6 @@
 
       loadQuizzes();
 
-      async function loadMyResults() {
-        const res = await fetch("/results/me");
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-
-        const list = document.getElementById("myResults");
-        list.innerHTML = "";
-
-        data.forEach((r) => {
-          const li = document.createElement("li");
-
-          li.innerText = `
-            Quiz: ${r.quizId} 
-            | Score: ${r.score}/${r.total} 
-            | Tid: ${r.time}s
-          `;
-
-          list.appendChild(li);
-        });
-      }
-
-      loadMyResults();
-      
       // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
       fetch("/auth/me")
         .then((res) => (res.ok ? res.json() : null))

@@ -75,14 +75,25 @@ app.post("/results", requireLogin, (req, res) => {
   const { quizId, score, total, time } = req.body;
   const username = req.session.user.username;
 
+  const quizPath = path.join(__dirname, "quizzes", quizId + ".json");
+
+  let quizName = "Ukendt quiz";
+
+  if (fs.existsSync(quizPath)) {
+    const quizData = JSON.parse(fs.readFileSync(quizPath, "utf-8"));
+    quizName = quizData.title;
+  }
+
   results.push({
     username,
     quizId,
+    quizName, 
     score,
     total,
     time,
     date: new Date(),
   });
+
   res.json({ message: "Resultat gemt" });
 });
 
