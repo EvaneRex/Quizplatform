@@ -9,12 +9,12 @@
     "secret": "GIYWQWZZERDGORDQLNMFIRDTKYYHO6LB"
   },
   {
-    "id": "207944c3-38cf-4817-8113-d2220a296eb4",
-    "username": "1234@Test",
+    "id": "c6b70073-ee4b-451e-87ef-5d545308a5cc",
+    "username": "Rikke@123",
     "email": "rikk052z@iba.dk",
-    "password": "$2b$10$oAGsnbPvv.G9OAPUBXXcjehtxDsry.e21un6FHrF1jPu2IZLP8Oje",
+    "password": "$2b$10$.HBSbiM7Lx.e914kIPY1sOzr6bvvRq/8h8Ze5cGRxumO6XbwadkH6",
     "role": "student",
     "twoFactorEnabled": true,
-    "secret": "PNUTYZ2IEZ2XGS2HLATDOR3OM4SDS6DD"
+    "secret": "K5ITCNCVK53VI7LYJJKHWJBUEMYDKV2I"
   }
 ]
