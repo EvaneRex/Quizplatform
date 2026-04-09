@@ -60,11 +60,17 @@
       });
 
       async function loadAllResults() {
-        const res = await fetch("/results/all");
+        const res = await fetch("/results/all", {
+          credentials: "include"
+        });
+
+        
 
         if (!res.ok) return;
 
         const data = await res.json();
+
+        console.log("DATA:", data);
 
         const table = document.querySelector("#allResults tbody");
         table.innerHTML = "";
