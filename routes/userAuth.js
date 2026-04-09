@@ -24,8 +24,17 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     : [];
 
   const user = users.find((u) => u.username === username);
-  const match = user ? await bcrypt.compare(password, user.password) : false;
-  if (!user || !match) {
+
+  if (!user) {
+    incrementAttempts(false, username);
+    return res
+      .status(401)
+      .json({ message: "Brugernavn eller adgangskode er forkert" });
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
     incrementAttempts(false, username);
     return res
       .status(401)
@@ -34,7 +43,7 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
 
   resetAttempts(username);
 
-  if (!user.twoFactorEnabled) {
+  if (!user.twoFactorEnabled || !user.secret) {
     if (!user.secret) {
       const secret = speakeasy.generateSecret({ length: 20 });
       user.secret = secret.base32;
@@ -63,40 +72,6 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
     id: user.id,
     email: user.email,
   };
-  res.json({ message: "Login succesfuldt", role: user.role });
-});
-
-router.post("/verify-mfa", (req, res) => {
-  const { code } = req.body;
-
-  const userId = req.session.mfaUserId;
-  if (!userId) return res.status(400).json({ message: "Ingen MFA session" });
-
-  const users = JSON.parse(fs.readFileSync("./users/users.json", "utf-8"));
-  const user = users.find((u) => u.id === userId);
-
-  if (!user || !user.secret)
-    return res.status(400).json({ message: "MFA ikke opsat" });
-
-  const verified = speakeasy.totp.verify({
-    secret: user.secret,
-    encoding: "base32",
-    token: code,
-    window: 1,
-  });
-
-  if (!verified) return res.status(401).json({ message: "Forkert kode" });
-
-  user.twoFactorEnabled = true;
-  fs.writeFileSync("./users/users.json", JSON.stringify(users, null, 2));
-
-  req.session.user = {
-    username: user.username,
-    role: user.role,
-    id: user.id,
-    email: user.email,
-  };
-  delete req.session.mfaUserId;
   res.json({ message: "Login succesfuldt", role: user.role });
 });
 
