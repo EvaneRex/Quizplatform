@@ -326,5 +326,219 @@
       }
     ],
     "date": "2026-04-09T15:33:32.367Z"
+  },
+  {
+    "userId": "1a651221-4f9d-43a5-aa24-06455ad1e0f8",
+    "username": "DevAdmin1!",
+    "quizId": "basicsDel2",
+    "quizName": "Javascript Basics del 2",
+    "score": 7,
+    "total": 15,
+    "time": 148,
+    "answers": [
+      {
+        "question": "Hvad gør Kæledyr = []?",
+        "selected": 0,
+        "answers": [
+          "Deklarerer en tom array",
+          "Deklarerer en tom funktion",
+          "Deklarerer en tom objekt",
+          "Deklarerer en tom string"
+        ],
+        "correct": "sting, funktion, variabel"
+      },
+      {
+        "question": "Hvilken er den korrekte loop?",
+        "selected": 3,
+        "answers": [
+          "for {i; i < 10; i++}",
+          "for let i = 0; i < 10; i++",
+          "for loop (let i = 0; i < 10; i++)",
+          "for (let i = 0; i < 10; i++)"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvilken operator bruges til at tildele en værdi til en variabel?",
+        "selected": 0,
+        "answers": [
+          "=",
+          "===",
+          "+=",
+          "=="
+        ],
+        "correct": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Hvad gør text.length?",
+        "selected": 3,
+        "answers": [
+          "Tilføjer et element i starten af en array",
+          "Tilføjer et element i slutningen af en array",
+          "Fjerner det sidste element i en array",
+          "Returnerer længden af en string"
+        ],
+        "correct": [
+          1
+        ]
+      },
+      {
+        "question": "Skriv 3 ord du forbinder med JavaScript",
+        "selected": "string, funktion, variable",
+        "answers": [],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Tekst i javascript gemmes i?",
+        "selected": 3,
+        "answers": [
+          "Number",
+          "Date",
+          "Boolean",
+          "String"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Vælg alle måder der laver en kommentar i JavaScript",
+        "selected": [
+          1,
+          2
+        ],
+        "answers": [
+          "# Dette er en kommentar",
+          "/* Dette er en kommentar */",
+          "// Dette er en kommentar",
+          "<!-- Dette er en kommentar -->"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvilken metode bruges til at fjerne det sidste element i en array?",
+        "selected": 2,
+        "answers": [
+          "push()",
+          "unshift()",
+          "pop()",
+          "shift()"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvad er den første indeks i en array?",
+        "selected": 3,
+        "answers": [
+          "Afhænger af arrayens længde",
+          "-1",
+          "1",
+          "0"
+        ],
+        "correct": [
+          0,
+          1
+        ]
+      },
+      {
+        "question": "Deklarering af en variabel i JavaScript kan gøres med hvilke af følgende nøgleord?",
+        "selected": [
+          0,
+          1,
+          2
+        ],
+        "answers": [
+          "var",
+          "let",
+          "const",
+          "function"
+        ],
+        "correct": [
+          1
+        ]
+      },
+      {
+        "question": "Vælg alle gyldige måder at bruge en string i JavaScript",
+        "selected": [
+          2,
+          3
+        ],
+        "answers": [
+          "let kæledyr = _hund_;",
+          "let kæledyr = hund;",
+          "let kæledyr = \"hund\";",
+          "let kæledyr = 'hund';"
+        ],
+        "correct": [
+          2
+        ]
+      },
+      {
+        "question": "Hvilket symbol bruges til at sammenligne både værdi og type i JavaScript?",
+        "selected": 0,
+        "answers": [
+          "===",
+          "!==",
+          "=",
+          "=="
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvad betyder '!'?",
+        "selected": 0,
+        "answers": [
+          "Negation",
+          "Tildeling",
+          "Logisk OG",
+          "Logisk ELLER"
+        ],
+        "correct": [
+          0,
+          1
+        ]
+      },
+      {
+        "question": "Hvor bruger man ; i JavaScript?",
+        "selected": 1,
+        "answers": [
+          "Foran hver funktion",
+          "Efter hver linje kode",
+          "Efter hver funktion",
+          "Foran hver linje kode"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvilken metode bruges til at tilføje et element i en array?",
+        "selected": 0,
+        "answers": [
+          "push()",
+          "pop()",
+          "shift()",
+          "unshift()"
+        ],
+        "correct": [
+          0
+        ]
+      }
+    ],
+    "date": "2026-04-09T16:55:25.939Z"
   }
 ]
