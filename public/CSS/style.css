@@ -51,6 +51,7 @@ button {
 
 button:hover {
   background-color: #74F18B;
+  color: #4e4b5c;
 }
 
 #quizList {
