@@ -1,13 +1,28 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-
+import sanitizeHtml from "sanitize-html";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
+
+function cleanHtml(input) {
+  return sanitizeHtml(input, {
+    allowedTags: ["strong", "br", "span"],
+    allowedAttributes: {
+      span: ["style"],
+    },
+    allowedStryles: {
+      span: {
+        "font-style": [/îtalics$/],
+        "text-decoration": [/underline$/],
+      },
+    },
+  });
+}
 
 router.get("/", (req, res) => {
   const quizFolder = path.join(__dirname, "../quizzes");
@@ -62,19 +77,18 @@ router.get("/:id", (req, res) => {
 
     return {
       type: q.type,
-      question: q.question,
-      answers: answersWithIndex.map((a) => a.text),
+      question: cleanHtml(q.question),
+      answers: answersWithIndex.map((a) => cleanHtml(a.text)),
       mapping: answersWithIndex.map((a) => a.originalIndex),
     };
   });
-
 
   res.json({
     id: id,
     title: quiz.title,
     questions: safeQuestions,
   });
-}); 
+});
 
 router.post("/answer", (req, res) => {
   const { quizId, questionIndex, selected, mapping } = req.body;
@@ -92,11 +106,30 @@ router.post("/answer", (req, res) => {
 
   let mapped = null;
 
-//CLOZE
+  console.log("DEBUG:", {
+    selected,
+    correct,
+    type: question.type,
+  });
+
+  //CLOZE
   if (question.type === "cloze") {
+    if (!selected || !correct) {
+      return res.json({
+        correct: false,
+        points: 0,
+      });
+    }
+
+    const correctAnswers = correct
+      .split(",")
+      .map((s) => s.trim().toLowerCase());
+
+    const userAnswers = selected.split(",").map((s) => s.trim().toLowerCase());
+
     const isCorrect =
-      selected.toString().trim().toLowerCase() ===
-      correct.toString().trim().toLowerCase();
+      correctAnswers.length === userAnswers.length &&
+      correctAnswers.every((ans) => userAnswers.includes(ans));
 
     return res.json({
       correct: isCorrect,
@@ -104,27 +137,27 @@ router.post("/answer", (req, res) => {
     });
   }
 
+  console.log("DEBUG:", {
+    selected,
+    mapping,
+    question,
+  });
   // håndterer single vs multiple
   if (Array.isArray(selected)) {
-    mapped = selected.map((i) => mapping[i]);
+    mapped = selected.map((i) => mapping[parseInt(i)]);
   } else {
-    mapped = mapping[selected];
+    mapped = mapping[parseInt(selected)];
   }
 
   let isCorrect;
   let points = 0;
 
-
   // MULTIPLE
   if (Array.isArray(mapped)) {
     const correctSet = correct;
 
-    const correctChosen = mapped.filter((x) =>
-      correctSet.includes(x),
-    ).length;
-    const wrongChosen = mapped.filter((x) =>
-      !correctSet.includes(x),
-    ).length;
+    const correctChosen = mapped.filter((x) => correctSet.includes(x)).length;
+    const wrongChosen = mapped.filter((x) => !correctSet.includes(x)).length;
 
     const totalCorrect = correctSet.length;
 

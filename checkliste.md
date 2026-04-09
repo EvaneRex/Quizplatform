@@ -14,12 +14,12 @@
 - [x] Se aktuelle resultater og ALLE tidligere resultater
 - [x] Point system
   - [x] brugerne skal informeres om vilkårne enten ved hvert spørgsmål eller i starten af quizzen (tab af point etc)
-- [ ] Efter ends quiz skal brugeren have resultaterne vises som basal statestik og se quizzen i sin helhed, og derefter kunne tage en anden
+- [x] Efter ends quiz skal brugeren have resultaterne vises som basal statestik og se quizzen i sin helhed, og derefter kunne tage en anden
 
 ## Server
 
-- [ ] Admin skal kunne slette og uploade quizfiler
-  - [ ] Quiz filer skal gemmes som json eller xml, (evt konventering fra andre filer)
+- [x] Admin skal kunne slette og uploade quizfiler
+  - [x] Quiz filer skal gemmes som json eller xml, (evt konventering fra andre filer)
 - [x] Admin skal have samme rettigheder som brugere og mere (admin rettigheder)
 - [x] Tjek af adgangskode styrke
 - [x] Passwords skal gemmes sikkert på serveren(gemt som json?)

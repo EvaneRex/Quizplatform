@@ -210,6 +210,22 @@ app.post(
   },
 );
 
+app.get("/quiz/list", (req, res) => {
+  const folderPath = path.join(__dirname, "quizzes");
+  console.log("Tjek sti:", folderPath);
+
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error("Fejl ved læsning af mappen:", err);
+      return res.status(500).json({ error: "Kunne ikke læse mappen" });
+    }
+
+    const quizFiles = files.filter((f) => f.endsWith(".json"));
+    console.log("Fundne quizzer:", quizFiles);
+    res.json(quizFiles);
+  });
+});
+
 // ----- LOGOUT -----
 app.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {

@@ -9,6 +9,9 @@
   <body>
     <h1 id="title"></h1>
 
+    <p id="progress"></p>
+    <p id="question"></p>
+
     <p id="question"></p>
 
     <div id="answers"></div>
@@ -51,10 +54,13 @@
 
         const q = questions[currentQuestion];
 
-        document.getElementById("question").innerText = q.question;
+        document.getElementById("question").innerHTML = q.question;
 
         const answersDiv = document.getElementById("answers");
         answersDiv.innerHTML = "";
+
+        document.getElementById("progress").innerText =
+          `Spørgsmål ${currentQuestion + 1} / ${questions.length}`;
 
         selected = null;
         selectedMultiple = [];
@@ -69,14 +75,13 @@
             input.name = "answer";
             input.value = index;
 
-            input.onchange = () => {
+            input.oninput = () => {
               if (locked) return;
-              selected = index;
+              selected = input.value.trim();
             };
 
             label.appendChild(input);
-            label.appendChild(document.createTextNode(answer));
-
+            label.innerHTML += answer;
             answersDiv.appendChild(label);
             answersDiv.appendChild(document.createElement("br"));
           });
@@ -102,8 +107,7 @@
             };
 
             label.appendChild(input);
-            label.appendChild(document.createTextNode(answer));
-
+            label.innerHTHML += answer;
             answersDiv.appendChild(label);
             answersDiv.appendChild(document.createElement("br"));
           });
@@ -157,6 +161,13 @@
           }),
         });
 
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("SERVER FEJL:", text);
+          alert("Server fejl – se konsol");
+          return;
+        }
+
         const data = await res.json();
 
         //UI feedback
@@ -206,7 +217,7 @@
             score: Math.round(score * 100) / 100,
             total: questions.length,
             time,
-            answers: userAnswers
+            answers: userAnswers,
           }),
         });
         window.location.href = "/dashboard";

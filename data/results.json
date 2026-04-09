@@ -540,5 +540,166 @@
       }
     ],
     "date": "2026-04-09T16:55:25.939Z"
+  },
+  {
+    "userId": "f816bff4-8631-463c-9a56-ece34f31cd1f",
+    "username": "Siggre01!",
+    "quizId": "1775757350066",
+    "quizName": "JavaScript Basics",
+    "score": 1,
+    "total": 11,
+    "time": 28,
+    "answers": [
+      {
+        "question": "Hvad er en funktion?",
+        "selected": null,
+        "answers": [
+          "En blok kode der kan genbruges",
+          "En type loop",
+          "En database",
+          "En variabel"
+        ],
+        "correct": [
+          2
+        ]
+      },
+      {
+        "question": "Hvad bruges addEventlistener til i JavaScript?",
+        "selected": null,
+        "answers": [
+          "At ændre en eksisterende event listener",
+          "At oprette en ny event listener",
+          "At fjerne en event listener fra et element",
+          "At tilføje en event listener til et element"
+        ],
+        "correct": [
+          3
+        ]
+      },
+      {
+        "question": "Skriv hello word",
+        "selected": "<script>alert(1)</script>",
+        "answers": [],
+        "correct": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Hvad returnerer typeof 'hello'?",
+        "selected": null,
+        "answers": [
+          "object",
+          "string",
+          "text",
+          "word"
+        ],
+        "correct": [
+          0
+        ]
+      },
+      {
+        "question": "Hvilket keyword bruges til at deklarere en variabel?",
+        "selected": null,
+        "answers": [
+          "var",
+          "let",
+          "const",
+          "Alle ovenstående"
+        ],
+        "correct": [
+          3
+        ]
+      },
+      {
+        "question": "Hvad bruges JavaScript primært til?",
+        "selected": null,
+        "answers": [
+          "At style hjemmesider",
+          "At strukturere indhold",
+          "At gemme data i databaser",
+          "At gøre hjemmesider interaktive"
+        ],
+        "correct": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "question": "Hvilke af disse er gyldige datatyper i JavaScript?",
+        "selected": [
+          2
+        ],
+        "answers": [
+          "Boolean",
+          "String",
+          "Number",
+          "Character"
+        ],
+        "correct": [
+          1
+        ]
+      },
+      {
+        "question": "Hvilke af disse er gyldige måder at deklarere en funktion på?",
+        "selected": [
+          1
+        ],
+        "answers": [
+          "function myFunction() {}",
+          "Alle ovenstående",
+          "const myFunction = function() {}",
+          "let myFunction = () => {}"
+        ],
+        "correct": [
+          1
+        ]
+      },
+      {
+        "question": "Hvilken metode bruges til at hente et element i DOM?",
+        "selected": null,
+        "answers": [
+          "getElementById",
+          "querySelector",
+          "getElementsByClassName",
+          "Alle ovenstående"
+        ],
+        "correct": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Hvilke af disse er loops i JavaScript?",
+        "selected": [
+          1
+        ],
+        "answers": [
+          "for",
+          "while",
+          "loop",
+          "do...while"
+        ],
+        "correct": "hello world"
+      },
+      {
+        "question": "Hvad gør '===' i JavaScript?",
+        "selected": null,
+        "answers": [
+          "Tildeler en værdi",
+          "Sammenligner værdi og type",
+          "Sammenligner kun værdi",
+          "Konverterer type"
+        ],
+        "correct": [
+          0
+        ]
+      }
+    ],
+    "date": "2026-04-09T18:25:33.402Z"
   }
 ]

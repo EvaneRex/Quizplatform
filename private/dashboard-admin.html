@@ -24,6 +24,10 @@
       <button type="submit">Upload quiz</button>
     </form>
 
+    <h2>Oversigt over quizzer</h2>
+    <ul id="quizList"></ul>
+
+    <h3>Alle resultater</h3>
     <table border="1" id="allResults">
       <thead>
         <tr>
@@ -40,51 +44,51 @@
     </table>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const uploadForm = document.getElementById("uploadForm");
+      async function loadQuizzes() {
+        try {
+          const res = await fetch("/quiz/list");
+          if (!res.ok) throw new Error("Kunne ikke hente quizzer");
 
-        uploadForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
+          const quizzes = await res.json();
+          const list = document.getElementById("quizList");
+          list.innerHTML = "";
 
-          console.log("UPLOAD TRYKKET");
-
-          const file = uploadForm.file.files[0];
-          if (!file) {
-            console.log("Ingen fil valgt");
+          if (quizzes.length === 0) {
+            const li = document.createElement("li");
+            li.textContent = "Ingen quizzer endnu";
+            list.appendChild(li);
             return;
           }
 
-          const formData = new FormData();
-          formData.append("file", file);
+          quizzes.forEach((quiz) => {
+            const li = document.createElement("li");
+            li.textContent = quiz + " ";
 
-          try {
-            console.log("sender request");
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Slet";
 
-            const res = await fetch("/quiz/upload", {
-              method: "POST",
-              body: formData,
+            deleteBtn.addEventListener("click", async () => {
+              if (!confirm("Er du sikker på du vil slette?")) return;
+
+              await fetch("/quiz/" + quiz, {
+                method: "DELETE",
+              });
+
+              loadQuizzes();
             });
 
-            console.log("response modtaget:", res.status);
-
-            const data = await res.json();
-            console.log("SERVER SVAR:", data);
-
-            alert(data.message);
-          } catch (err) {
-            console.error("fetch fejl", err);
-            alert("Fejl ved upload");
-          }
-        });
-      });
+            li.appendChild(deleteBtn);
+            list.appendChild(li);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
       // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.
       const studentView = document.getElementById("studentview");
       studentView.addEventListener("click", async (e) => {
         e.preventDefault();
-        studentView.addEventListener("click", async (e) => {
-          e.preventDefault();
-        });
 
         try {
           const res = await fetch("/dashboard-student-view", {
@@ -191,7 +195,46 @@
         }
       }
 
-      loadAllResults();
+      document.addEventListener("DOMContentLoaded", () => {
+        const uploadForm = document.getElementById("uploadForm");
+        loadQuizzes();
+        loadAllResults();
+
+        uploadForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          console.log("UPLOAD TRYKKET");
+
+          const file = uploadForm.file.files[0];
+          if (!file) {
+            console.log("Ingen fil valgt");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          try {
+            console.log("sender request");
+
+            const res = await fetch("/quiz/upload", {
+              method: "POST",
+              body: formData,
+            });
+
+            console.log("response modtaget:", res.status);
+
+            const data = await res.json();
+            console.log("SERVER SVAR:", data);
+
+            alert(data.message);
+            loadQuizzes();
+          } catch (err) {
+            console.error("fetch fejl", err);
+            alert("Fejl ved upload");
+          }
+        });
+      });
     </script>
   </body>
 </html>
