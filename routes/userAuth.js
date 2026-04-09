@@ -15,7 +15,7 @@ import {
 
 const router = express.Router();
 
-// Login delen med lockout + rate limiting
+// Login delen med lockout + rate limiting + TOTP
 router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
   const { username, password } = req.body;
   const usersPath = "./users/users.json";

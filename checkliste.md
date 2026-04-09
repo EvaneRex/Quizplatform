@@ -5,7 +5,7 @@
 - [x] Login-form fungerer
   - [ ] Logud manlger men er gjort klar i server
 - [x] Oprettelse af bruger
-  - [ ] tilføje MFA
+  - [x] tilføje MFA
   - [x] email
 - [ ] Quiz med radio knap, checkbox og lille input tekst med 10 spørgsmål mindst
 - [ ] Admin skal kunne se alle brugernes interaktioner med platformen
