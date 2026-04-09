@@ -7,13 +7,13 @@
 - [x] Oprettelse af bruger
   - [x] tilføje MFA
   - [x] email
-- [ ] Quiz med radio knap, checkbox og lille input tekst med 10 spørgsmål mindst
-- [ ] Admin skal kunne se alle brugernes interaktioner med platformen
-  - [ ] hvem der tager hvilken quiz og hvornår, hvor langt tid det tager dem og resultat
+- [x] Quiz med radio knap, checkbox og lille input tekst med 10 spørgsmål mindst
+- [x] Admin skal kunne se alle brugernes interaktioner med platformen
+  - [x] hvem der tager hvilken quiz og hvornår, hvor langt tid det tager dem og resultat
 - [x] Brugere skal kunne tage og se tilgængelige quizzer
 - [x] Se aktuelle resultater og ALLE tidligere resultater
 - [x] Point system
-  - [ ] brugerne skal informeres om vilkårne enten ved hvert spørgsmål eller i starten af quizzen (tab af point etc)
+  - [x] brugerne skal informeres om vilkårne enten ved hvert spørgsmål eller i starten af quizzen (tab af point etc)
 - [ ] Efter ends quiz skal brugeren have resultaterne vises som basal statestik og se quizzen i sin helhed, og derefter kunne tage en anden
 
 ## Server
@@ -21,12 +21,11 @@
 - [ ] Admin skal kunne slette og uploade quizfiler
   - [ ] Quiz filer skal gemmes som json eller xml, (evt konventering fra andre filer)
 - [x] Admin skal have samme rettigheder som brugere og mere (admin rettigheder)
-  - [ ] Mangler at sikre de sidste routes
 - [x] Tjek af adgangskode styrke
 - [x] Passwords skal gemmes sikkert på serveren(gemt som json?)
-- [ ] Gemme resulater fra brugerne
+- [x] Gemme resulater fra brugerne
 - [x] Korrekte quiz svar må IKKE være tilgængelige på client før brugeren har svaret
-- [ ] Serveren skal løbende holde styr på statestik over brugernes resultater (måske laves som sin egen fil og lægges i routes mappen, så serveren er "ren")
+- [ ] Serveren skal løbende holde styr på statestik over brugernes resultater
 
 ## Generelle funktioner
 

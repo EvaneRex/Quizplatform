@@ -95,23 +95,23 @@
 
       async function loadAllResults() {
         const res = await fetch("/results/all", {
-          credentials: "include"
+          credentials: "include",
         });
 
         if (!res.ok) return;
 
         const data = await res.json();
         window.allResultsData = data;
-      
+
         console.log("DATA:", data);
 
         const table = document.querySelector("#allResults tbody");
         table.innerHTML = "";
 
-       data.forEach((r, index) => {
-        const tr = document.createElement("tr");
+        data.forEach((r, index) => {
+          const tr = document.createElement("tr");
 
-        tr.innerHTML = `
+          tr.innerHTML = `
           <td>${r.userId}</td>
           <td>${r.username}</td>
           <td>${r.quizId}</td>
@@ -121,9 +121,9 @@
           <td><button onclick="toggleDetails(${index})">Se svar</button></td>
         `;
 
-        const detailsRow = document.createElement("tr");
+          const detailsRow = document.createElement("tr");
 
-        detailsRow.innerHTML = `
+          detailsRow.innerHTML = `
           <td colspan="7">
             <div id="details-${index}" style="display:none;"></div>
           </td>
@@ -135,21 +135,21 @@
       }
 
       function toggleDetails(index) {
-            const el = document.getElementById("details-" + index);
+        const el = document.getElementById("details-" + index);
 
-            if (el.style.display === "none") {
-              el.style.display = "block";
+        if (el.style.display === "none") {
+          el.style.display = "block";
 
-              const result = window.allResultsData[index];
+          const result = window.allResultsData[index];
 
-              if (!result.answers) {
-                el.innerHTML = "Ingen svar gemt";
-                return;
-              }
+          if (!result.answers) {
+            el.innerHTML = "Ingen svar gemt";
+            return;
+          }
 
-              el.innerHTML = result.answers
-                .map((a, i) => {
-                  return `
+          el.innerHTML = result.answers
+            .map((a, i) => {
+              return `
                     <div>
                       <strong>Spørgsmål ${i + 1}:</strong><br>
                       ${a.question}<br><br>
@@ -176,12 +176,12 @@
                         .join("")}
                     </div>
                   `;
-                })
-                .join("<hr>");
-            } else {
-              el.style.display = "none";
-            }
-          }
+            })
+            .join("<hr>");
+        } else {
+          el.style.display = "none";
+        }
+      }
 
       loadAllResults();
     </script>
