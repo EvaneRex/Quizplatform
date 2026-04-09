@@ -29,6 +29,7 @@
           <th>Quiz navn</th>
           <th>Korrekt</th>
           <th>Tid</th>
+          <th>Svar</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -40,6 +41,8 @@
     <!--Admin har: Tag quiz, upload quiz fil, slet quiz, se deltager liste med dropdown -->
 
     <script>
+      let results = [];
+
       async function loadQuizzes() {
         const [quizRes, resultRes] = await Promise.all([
           fetch("/quiz"),
@@ -47,8 +50,8 @@
         ]);
 
         const quizzes = await quizRes.json();
-        const results = await resultRes.json();
-
+        results = await resultRes.json(); 
+        
         const completedIds = results.map((r) => r.quizId);
 
         const activeList = document.getElementById("activeQuizzes");
@@ -59,19 +62,30 @@
 
         quizzes.forEach((q) => {
           if (completedIds.includes(q.id)) {
-            const result = results.find((r) => r.quizId === q.id);
+              const result = results.find((r) => r.quizId === q.id);
+              const index = results.indexOf(result);
 
-            const tr = document.createElement("tr");
+              const tr = document.createElement("tr");
 
-            tr.innerHTML = `
-              <td>${q.id}</td>
-              <td>${q.title}</td>
-              <td>${result.score}/${result.total}</td>
-              <td>${result.time}s</td>
-            `;
+              tr.innerHTML = `
+                <td>${q.id}</td>
+                <td>${q.title}</td>
+                <td>${result.score}/${result.total}</td>
+                <td>${result.time}s</td>
+                <td><button onclick="toggleDetails(${index})">Se svar</button></td>
+              `;
 
-            completedTable.appendChild(tr);
-          } else {
+              const detailsRow = document.createElement("tr");
+
+              detailsRow.innerHTML = `
+                <td colspan="5">
+                  <div id="details-${index}" style="display:none;"></div>
+                </td>
+              `;
+
+              completedTable.appendChild(tr);
+              completedTable.appendChild(detailsRow);
+            } else {
             const li = document.createElement("li");
 
             li.innerHTML = `
@@ -105,6 +119,55 @@
         .catch(() => {
           alert("Noget gik galt, prøv igen senere");
         });
+
+        function toggleDetails(index) {
+          const el = document.getElementById("details-" + index);
+
+          if (el.style.display === "none") {
+            el.style.display = "block";
+
+            const result = results[index];
+
+            if (!result.answers) {
+              el.innerHTML = "Ingen svar gemt";
+              return;
+            }
+
+            el.innerHTML = result.answers
+              .map((a, i) => {
+                return `
+                  <div>
+                    <strong>Spørgsmål ${i + 1}:</strong><br>
+                    ${a.question}<br><br>
+
+                    <strong>Svarmuligheder:</strong><br>
+                    ${a.answers
+                      .map((ans, idx) => {
+                        const isCorrect = a.correct.includes(idx);
+                        const isSelected = Array.isArray(a.selected)
+                          ? a.selected.includes(idx)
+                          : a.selected == idx;
+
+                        return `
+                          <div style="
+                            color: ${isCorrect ? "green" : isSelected ? "red" : "black"};
+                            font-weight: ${isCorrect ? "bold" : "normal"};
+                          ">
+                            ${ans}
+                            ${isCorrect ? "✔️" : ""}
+                            ${isSelected && !isCorrect ? "❌" : ""}
+                          </div>
+                        `;
+                      })
+                      .join("")}
+                  </div>
+                `;
+              })
+              .join("<hr>");
+          } else {
+            el.style.display = "none";
+          }
+        }
     </script>
   </body>
 </html>

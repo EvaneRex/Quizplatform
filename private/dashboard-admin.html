@@ -103,37 +103,53 @@
       }
 
       function toggleDetails(index) {
-        const el = document.getElementById("details-" + index);
+            const el = document.getElementById("details-" + index);
 
-        if (el.style.display === "none") {
-          el.style.display = "block";
+            if (el.style.display === "none") {
+              el.style.display = "block";
 
-          const data = window.allResultsData[index];
+              const result = window.allResultsData[index];
 
-          if (!data.answers) {
-            el.innerHTML = "Ingen svar gemt";
-            return;
+              if (!result.answers) {
+                el.innerHTML = "Ingen svar gemt";
+                return;
+              }
+
+              el.innerHTML = result.answers
+                .map((a, i) => {
+                  return `
+                    <div>
+                      <strong>Spørgsmål ${i + 1}:</strong><br>
+                      ${a.question}<br><br>
+
+                      <strong>Svarmuligheder:</strong><br>
+                      ${a.answers
+                        .map((ans, idx) => {
+                          const isCorrect = a.correct.includes(idx);
+                          const isSelected = Array.isArray(a.selected)
+                            ? a.selected.includes(idx)
+                            : a.selected == idx;
+
+                          return `
+                            <div style="
+                              color: ${isCorrect ? "green" : isSelected ? "red" : "black"};
+                              font-weight: ${isCorrect ? "bold" : "normal"};
+                            ">
+                              ${ans}
+                              ${isCorrect ? "✔️" : ""}
+                              ${isSelected && !isCorrect ? "❌" : ""}
+                            </div>
+                          `;
+                        })
+                        .join("")}
+                    </div>
+                  `;
+                })
+                .join("<hr>");
+            } else {
+              el.style.display = "none";
+            }
           }
-
-          el.innerHTML = data.answers
-            .map(
-              (a, i) => `
-              <div>
-                <strong>Spørgsmål ${i + 1}:</strong><br>
-                ${a.question}<br>
-                <em>Dit svar:</em> ${
-                  Array.isArray(a.selected)
-                    ? a.selected.join(", ")
-                    : a.selected
-                }
-              </div>
-            `
-            )
-            .join("<hr>");
-        } else {
-          el.style.display = "none";
-        }
-      }
 
       loadAllResults();
     </script>

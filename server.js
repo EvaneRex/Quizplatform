@@ -12,10 +12,20 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-let results = [];
 
 const app = express();
 const PORT = 3000;
+
+const resultsPath = path.join(__dirname, "data", "results.json");
+
+function getResults() {
+  if (!fs.existsSync(resultsPath)) return [];
+  return JSON.parse(fs.readFileSync(resultsPath, "utf-8"));
+}
+
+function saveResults(results) {
+  fs.writeFileSync(resultsPath, JSON.stringify(results, null, 2));
+}
 
 app.use(
   session({
@@ -72,46 +82,74 @@ app.get(
 );
 
 app.post("/results", requireLogin, (req, res) => {
-  const { quizId, score, total, time, answers } = req.body;
-  const userId = req.session.user.id;
-  const username = req.session.user.username;
+  try {
+    const { quizId, score, total, time, answers } = req.body;
+    const userId = req.session.user.id;
+    const username = req.session.user.username;
 
-  const quizPath = path.join(__dirname, "quizzes", quizId + ".json");
+    const quizPath = path.join(__dirname, "quizzes", quizId + ".json");
 
-  let quizName = "Ukendt quiz";
+    let quizName = "Ukendt quiz";
+    let quizData = null; // 🔥 FIX
 
-  if (fs.existsSync(quizPath)) {
-    const quizData = JSON.parse(fs.readFileSync(quizPath, "utf-8"));
-    quizName = quizData.title;
+    if (fs.existsSync(quizPath)) {
+      quizData = JSON.parse(fs.readFileSync(quizPath, "utf-8"));
+      quizName = quizData.title;
+    }
+
+    const enrichedAnswers = answers.map((a, i) => {
+      const correct = quizData?.questions?.[i]?.correct || [];
+
+      return {
+        question: a.question,
+        selected: a.selected,
+        answers: a.answers || [],
+        correct,
+      };
+    });
+
+    const results = getResults();
+
+    results.push({
+      userId,
+      username,
+      quizId,
+      quizName,
+      score,
+      total,
+      time,
+      answers: enrichedAnswers,
+      date: new Date(),
+    });
+
+    saveResults(results);
+
+    console.log("GEMT RESULTAT:", username);
+
+    res.json({ message: "Resultat gemt" });
+  } catch (err) {
+    console.error("FEJL i /results:", err);
+    res.status(500).json({ error: "Kunne ikke gemme resultat" });
   }
-
-  results.push({
-    userId,
-    username,
-    quizId,
-    quizName, 
-    score,
-    total,
-    time,
-    answers,
-    date: new Date(),
-  });
-
-    console.log("SESSION USER:", req.session.user);
-
-
-  res.json({ message: "Resultat gemt" });
 });
 
 app.get("/results/me", requireLogin, (req, res) => {
-  const username = req.session.user.username;
+  try {
+    const username = req.session.user.username;
 
-  const userResults = results.filter((result) => result.username === username);
+    const results = getResults();
 
-  res.json(userResults);
+    const userResults = results.filter((r) => r.username === username);
+
+    res.json(userResults);
+  } catch (err) {
+    console.error("FEJL i /results/me:", err);
+    res.status(500).json({ error: "Server fejl" });
+  }
 });
 
 app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
+  const results = getResults();
   res.json(results);
 });
 

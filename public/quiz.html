@@ -169,6 +169,8 @@
         userAnswers[currentQuestion] = {
           question: q.question,
           selected: selectedAnswer,
+          answers: q.answers,
+          mapping: q.mapping,
         };
 
         document.getElementById("nextBtn").style.display = "block";
