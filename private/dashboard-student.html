@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Student</title>
+    <script type="module">
+      import Header from "./header.js";
+      new Header("header-container");
+    </script>
   </head>
   <body>
     <h1>Velkommen til dit dashboard!</h1>
@@ -11,15 +15,15 @@
     <button id="admin-back-btn" style="display: none">
       Tilbage til admin dashboard
     </button>
-  
 
     <!-- Aktive quiz -->
-    <h2>Aktive Quizzes</h2>
-    <ul id="activeQuizzes"></ul>
+    <div>
+      <h2>Aktive Quizzes</h2>
+      <ul id="activeQuizzes"></ul>
 
-    <h2>Dine gennemførte Quizzes</h2>
-    <ul id="completedQuizzes"></ul>
-    <ul id="myResults"></ul>
+      <h2>Dine gennemførte Quizzes</h2>
+      <ul id="completedQuizzes"></ul>
+      <ul id="myResults"></ul>
 
       <h3>Alle resultater</h3>
       <ul id="allResults"></ul>
@@ -29,7 +33,7 @@
     <!--Admin har: Tag quiz, upload quiz fil, slet quiz, se deltager liste med dropdown -->
 
     <script>
-     async function loadQuizzes() {
+      async function loadQuizzes() {
         const [quizRes, resultRes] = await Promise.all([
           fetch("/quiz"),
           fetch("/results/me"),
@@ -94,7 +98,7 @@
       }
 
       loadMyResults();
-      
+
       // Vis kun "Tilbage til admin"-knappen, hvis den loggede bruger er admin
       fetch("/auth/me")
         .then((res) => (res.ok ? res.json() : null))
