@@ -6,7 +6,7 @@ import path from "path";
 import "dotenv/config";
 import userAuthRouter from "./routes/userAuth.js";
 import quizRoutes from "./routes/quiz.routes.js";
-import { requireLogin, requireRole } from "./test-middleware/validerRolle.js";
+import { requireLogin, requireRole } from "./middleware/validerRolle.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import multer from "multer";

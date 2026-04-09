@@ -3,15 +3,15 @@ import fs from "fs";
 import bcrypt from "bcrypt";
 import speakeasy from "speakeasy";
 import crypto from "crypto";
-import validerLogin from "../test-middleware/validerLogin.js";
-import validerOpretBruger from "../test-middleware/validerOprettelse.js";
-import { requireLogin } from "../test-middleware/validerRolle.js";
+import validerLogin from "../middleware/validerLogin.js";
+import validerOpretBruger from "../middleware/validerOprettelse.js";
+import { requireLogin } from "../middleware/validerRolle.js";
 import {
   lockout,
   incrementAttempts,
   resetAttempts,
   loginLimiter,
-} from "../test-middleware/lockout.js";
+} from "../middleware/lockout.js";
 
 const router = express.Router();
 
