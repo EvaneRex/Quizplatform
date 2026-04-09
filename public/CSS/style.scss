@@ -48,7 +48,6 @@ button {
     border: none;
 }
 
-
 #header .user-info button:hover {
   background-color: #000000;
     color: #ffffff;
@@ -58,6 +57,33 @@ button {
 button:hover {
   background-color: $secondaryColor;
 
+}
+
+#quizList {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#quizList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#quizList button {
+  background-color: $fontColor;
+  color: $backgroundColor;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  box-shadow: none;
+  margin: 0;
 }
 
 a {
