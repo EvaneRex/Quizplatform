@@ -4,12 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Admin</title>
+    <div id="header-container"></div>
+    <script type="module">
+      import Header from "./header.js";
+      new Header("header-container");
+    </script>
   </head>
   <body>
-    <h1>Admin</h1>
+    <header id="header"></header>
     <a id="studentview" href="/dashboard-student-view.html"
       >se elev dashboard</a
     >
+    <h1>Admin</h1>
 
     <button onclick="uploadQuiz()">Upload quiz</button>
 

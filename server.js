@@ -99,7 +99,6 @@ app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
 });
 
 app.use("/quiz", quizRoutes);
-// ----- 2FA -----
 
 // ----- Upload quiz -----
 app.post("/quiz/upload", requireLogin, requireRole("admin"), (req, res) => {
@@ -136,9 +135,10 @@ app.post("/quiz/upload", requireLogin, requireRole("admin"), (req, res) => {
 app.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ message: "Kunne ikke logge ud" });
+      console.error("Fejl ved logout:", err);
+      return res.sendStatus(500);
     }
-    res.json({ message: "Du er logget ud" });
+    res.sendStatus(204);
   });
 });
 

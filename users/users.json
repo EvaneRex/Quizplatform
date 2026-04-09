@@ -22,8 +22,8 @@
     "username": "1234@Test",
     "email": "evanerex@gmail.com",
     "password": "$2b$10$jjgHVXLOZIGqtijaVMSU5uJX0NmrTgAGiXFHdzQ9Md.8Jf1QGIS6a",
-    "role": "student",
-    "twoFactorEnabled": false,
+    "role": "admin",
+    "twoFactorEnabled": true,
     "secret": "IBLSMNTJKY4EOOCGOZ5FEZRPKUYEGXTM"
   }
 ]
