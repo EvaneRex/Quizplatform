@@ -24,6 +24,37 @@ button {
   ;
 }
 
+#header {
+  padding: 10px 20px;
+  background-color: $primaryColor;
+  color: $fontColor;
+  border-radius: 10px;
+}
+
+#header .user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: x-large;
+}
+
+#header .user-info span {
+  font-weight: bold;
+}
+
+#header .user-info button {
+  background-color: $fontColor;
+    color: $backgroundColor;
+    border: none;
+}
+
+
+#header .user-info button:hover {
+  background-color: #000000;
+    color: #ffffff;
+    border: none;
+}
+
 button:hover {
   background-color: $secondaryColor;
 

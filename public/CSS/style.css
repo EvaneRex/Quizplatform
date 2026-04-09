@@ -19,6 +19,36 @@ button {
   box-shadow: #4e4b5c 0px 2px 4px;
 }
 
+#header {
+  padding: 10px 20px;
+  background-color: #7ebc89;
+  color: #4e4b5c;
+  border-radius: 10px;
+}
+
+#header .user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: x-large;
+}
+
+#header .user-info span {
+  font-weight: bold;
+}
+
+#header .user-info button {
+  background-color: #4e4b5c;
+  color: #E6DFE7;
+  border: none;
+}
+
+#header .user-info button:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+}
+
 button:hover {
   background-color: #74F18B;
 }
