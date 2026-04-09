@@ -38,7 +38,7 @@
       <a href="opretBruger.html">Ikke en bruger?</a>
 
       <div id="mfaSection" style="display: none">
-        <p>Scan QR-kode i Authenticator-app eller indtast kode:</p>
+        <p>Scan QR-kode i Authenticator-app og indtast kode:</p>
         <canvas id="qrcode" height="300" width="300"></canvas>
         <input id="mfaCode" placeholder="6-cifret kode" />
         <button id="verifyMfa">Verificer</button>
@@ -50,6 +50,8 @@
         const mfaSection = document.getElementById("mfaSection");
         const qrcodeCanvas = document.getElementById("qrcode");
         const verifyBtn = document.getElementById("verifyMfa");
+
+        mfaSection.style.display = "none";
 
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -65,12 +67,19 @@
             });
 
             const data = await res.json();
-
             out.textContent = data.message;
 
-            if (!res.ok) return;
+            if (!res.ok) {
+              form.username.value = "";
+              form.password.value = "";
+              return;
+            }
 
             if (data.mfaRequired) {
+              form.style.display = "none";
+              form.username.value = "";
+              form.password.value = "";
+
               mfaSection.style.display = "block";
               if (data.otpauthUrl) {
                 QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
@@ -84,6 +93,8 @@
           } catch (err) {
             console.error(err);
             out.textContent = "Noget gik galt med login";
+            form.username.value = "";
+            form.password.value = "";
           }
         });
 
