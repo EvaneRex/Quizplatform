@@ -17,7 +17,10 @@
     >
     <h1>Admin</h1>
 
-    <button onclick="uploadQuiz()">Upload quiz</button>
+    <form action="/quiz/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".xlsx, .xls, .csv" />
+      <button id="uploadBtn">Upload quiz</button>
+    </form>
 
     <button></button>
 
