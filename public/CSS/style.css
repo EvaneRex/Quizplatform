@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   background-color: #E6DFE7;
   color: #4e4b5c;
@@ -22,6 +23,20 @@ button:hover {
   background-color: #74F18B;
 }
 
+a {
+  color: #7ebc89;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a::after {
+  content: " →";
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 input[type=text],
 input[type=password],
 input[type=email] {
@@ -36,6 +51,22 @@ input[type=radio],
 input[type=checkbox] {
   color: #74F18B;
   margin: 0 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  margin: 10px 0;
+  text-align: left;
 }
 
 /*# sourceMappingURL=style.css.map */

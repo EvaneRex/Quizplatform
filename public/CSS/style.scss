@@ -29,6 +29,19 @@ button:hover {
 
 }
 
+a {
+  color: $primaryColor;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a::after {
+  content: " →";
+}
+a:hover {
+    text-decoration: underline;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"] {
@@ -43,4 +56,20 @@ input[type="radio"],
 input[type="checkbox"] {
   color: $secondaryColor;
     margin: 0 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  margin: 10px 0;
+  text-align: left;
 }
