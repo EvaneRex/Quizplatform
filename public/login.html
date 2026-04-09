@@ -66,29 +66,21 @@
           const data = await res.json();
           out.textContent = data.message;
 
-          if (!data.mfaRequired) {
-            window.location.href = "/dashboard";
+          if (!res.ok) {
             return;
           }
 
-          mfaSection.style.display = "block";
-          if (data.otpauthUrl) {
-            QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
-              if (err) console.error(err);
-            });
+          if (data.mfaRequired) {
+            mfaSection.style.display = "block";
+            if (data.otpauthUrl) {
+              QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
+                if (err) console.error(err);
+              });
+            }
+            return;
           }
 
-          verifyBtn.onclick = async () => {
-            const code = document.getElementById("mfaCode").value;
-            const res = await fetch("/auth/verify-mfa", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ code }),
-            });
-            const data = await res.json();
-            out.textContent = data.message;
-            if (res.ok) window.location.href = "/dashboard";
-          };
+          window.location.href = "/dashboard";
         });
       </script>
     </div>
