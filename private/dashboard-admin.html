@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Admin</title>
     <link rel="stylesheet" href="CSS/style.css" />
-    <div id="header-container"></div>
-    <script type="module">
-      import Header from "./header.js";
-      new Header("header-container");
-    </script>
+    <script type="module" src="./header.js" defer></script>
   </head>
   <body>
     <header id="header"></header>
@@ -24,7 +20,7 @@
       method="POST"
       enctype="multipart/form-data"
     >
-      <input type="file" name="file" accept=".json, .xml" required />
+      <input type="file" name="file" accept=".json" required />
       <button type="submit">Upload quiz</button>
     </form>
 
@@ -44,30 +40,42 @@
     </table>
 
     <script>
-      const uploadForm = document.getElementById("uploadForm");
+      document.addEventListener("DOMContentLoaded", () => {
+        const uploadForm = document.getElementById("uploadForm");
 
-      uploadForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const file = uploadForm.file.files[0];
-        if (!file) return;
+        uploadForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("file", file);
+          console.log("UPLOAD TRYKKET");
 
-        try {
-          const res = await fetch("/quiz/upload", {
-            method: "POST",
-            body: formData,
-          });
-          const data = await res.json();
+          const file = uploadForm.file.files[0];
+          if (!file) {
+            console.log("Ingen fil valgt");
+            return;
+          }
 
-          uploadForm.reset();
+          const formData = new FormData();
+          formData.append("file", file);
 
-          loadQuizFiles();
-        } catch (err) {
-          alert("Fejl ved upload");
-          uploadForm.reset();
-        }
+          try {
+            console.log("sender request");
+
+            const res = await fetch("/quiz/upload", {
+              method: "POST",
+              body: formData,
+            });
+
+            console.log("response modtaget:", res.status);
+
+            const data = await res.json();
+            console.log("SERVER SVAR:", data);
+
+            alert(data.message);
+          } catch (err) {
+            console.error("fetch fejl", err);
+            alert("Fejl ved upload");
+          }
+        });
       });
 
       // Det er her udelukkende til at admin roller kan navigere frem til elev dashboardet.

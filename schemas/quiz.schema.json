@@ -9,34 +9,75 @@
       "type": "array",
       "minItems": 10,
       "items": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["single", "multiple"]
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": { "const": "single" },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "answers": {
+                "type": "array",
+                "minItems": 2,
+                "items": { "type": "string" }
+              },
+              "correct": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "required": ["type", "question", "answers", "correct"],
+            "additionalProperties": false
           },
-          "question": {
-            "type": "string",
-            "minLength": 1
+          {
+            "type": "object",
+            "properties": {
+              "type": { "const": "multiple" },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "answers": {
+                "type": "array",
+                "minItems": 2,
+                "items": { "type": "string" }
+              },
+              "correct": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "required": ["type", "question", "answers", "correct"],
+            "additionalProperties": false
           },
-          "answers": {
-            "type": "array",
-            "minItems": 2,
-            "items": {
-              "type": "string"
-            }
-          },
-          "correct": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "type": "number",
-              "minimum": 0
-            }
+          {
+            "type": "object",
+            "properties": {
+              "type": { "const": "cloze" },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "correct": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["type", "question", "correct"],
+            "additionalProperties": false
           }
-        },
-        "required": ["type", "question", "answers", "correct"],
-        "additionalProperties": false
+        ]
       }
     }
   },

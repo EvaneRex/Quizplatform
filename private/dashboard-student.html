@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Student</title>
     <link rel="stylesheet" href="CSS/style.css" />
-    <script type="module">
-      import Header from "./header.js";
-      new Header("header-container");
-    </script>
+    <script type="module" src="./header.js" defer></script>
   </head>
   <body>
+    <header id="header"></header>
     <h1>Velkommen til dit dashboard!</h1>
     <p>Her kan du se dine kommende opgaver, deadlines og meddelelser</p>
     <button id="admin-back-btn" style="display: none">
@@ -20,25 +18,27 @@
     <!-- Aktive quiz -->
     <div>
       <h2>Aktive Quizzes</h2>
-      <p>Hvert spørgsmål giver 1 point, også selvom du skal vælge flere svar. <br>
-        Du skal vælge alle korrekte svar for at få 1 point. <br>
-      Når en quiz er gennemført, kan du se dine resultater nedenfor.</p>
+      <p>
+        Hvert spørgsmål giver 1 point, også selvom du skal vælge flere svar.
+        <br />
+        Du skal vælge alle korrekte svar for at få 1 point. <br />
+        Når en quiz er gennemført, kan du se dine resultater nedenfor.
+      </p>
       <ul id="activeQuizzes"></ul>
 
-    <h2>Dine gennemførte Quizzes</h2>
-    <table border="1" id="completedQuizzes">
-      <thead>
-        <tr>
-          <th>Quiz ID</th>
-          <th>Quiz navn</th>
-          <th>Korrekt</th>
-          <th>Tid</th>
-          <th>Svar</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
+      <h2>Dine gennemførte Quizzes</h2>
+      <table border="1" id="completedQuizzes">
+        <thead>
+          <tr>
+            <th>Quiz ID</th>
+            <th>Quiz navn</th>
+            <th>Korrekt</th>
+            <th>Tid</th>
+            <th>Svar</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
     <!--Almindelig bruger har: Start quiz, se resultat, tag quiz igen -->
@@ -54,24 +54,26 @@
         ]);
 
         const quizzes = await quizRes.json();
-        results = await resultRes.json(); 
-        
+        results = await resultRes.json();
+
         const completedIds = results.map((r) => r.quizId);
 
         const activeList = document.getElementById("activeQuizzes");
-        const completedTable = document.querySelector("#completedQuizzes tbody");
+        const completedTable = document.querySelector(
+          "#completedQuizzes tbody",
+        );
 
         activeList.innerHTML = "";
         completedTable.innerHTML = "";
 
         quizzes.forEach((q) => {
           if (completedIds.includes(q.id)) {
-              const result = results.find((r) => r.quizId === q.id);
-              const index = results.indexOf(result);
+            const result = results.find((r) => r.quizId === q.id);
+            const index = results.indexOf(result);
 
-              const tr = document.createElement("tr");
+            const tr = document.createElement("tr");
 
-              tr.innerHTML = `
+            tr.innerHTML = `
                 <td>${q.id}</td>
                 <td>${q.title}</td>
                 <td>${result.score}/${result.total}</td>
@@ -79,17 +81,17 @@
                 <td><button onclick="toggleDetails(${index})">Se svar</button></td>
               `;
 
-              const detailsRow = document.createElement("tr");
+            const detailsRow = document.createElement("tr");
 
-              detailsRow.innerHTML = `
+            detailsRow.innerHTML = `
                 <td colspan="5">
                   <div id="details-${index}" style="display:none;"></div>
                 </td>
               `;
 
-              completedTable.appendChild(tr);
-              completedTable.appendChild(detailsRow);
-            } else {
+            completedTable.appendChild(tr);
+            completedTable.appendChild(detailsRow);
+          } else {
             const li = document.createElement("li");
 
             li.innerHTML = `
@@ -124,22 +126,22 @@
           alert("Noget gik galt, prøv igen senere");
         });
 
-        function toggleDetails(index) {
-          const el = document.getElementById("details-" + index);
+      function toggleDetails(index) {
+        const el = document.getElementById("details-" + index);
 
-          if (el.style.display === "none") {
-            el.style.display = "block";
+        if (el.style.display === "none") {
+          el.style.display = "block";
 
-            const result = results[index];
+          const result = results[index];
 
-            if (!result.answers) {
-              el.innerHTML = "Ingen svar gemt";
-              return;
-            }
+          if (!result.answers) {
+            el.innerHTML = "Ingen svar gemt";
+            return;
+          }
 
-            el.innerHTML = result.answers
-              .map((a, i) => {
-                return `
+          el.innerHTML = result.answers
+            .map((a, i) => {
+              return `
                   <div>
                     <strong>Spørgsmål ${i + 1}:</strong><br>
                     ${a.question}<br><br>
@@ -166,12 +168,12 @@
                       .join("")}
                   </div>
                 `;
-              })
-              .join("<hr>");
-          } else {
-            el.style.display = "none";
-          }
+            })
+            .join("<hr>");
+        } else {
+          el.style.display = "none";
         }
+      }
     </script>
   </body>
 </html>

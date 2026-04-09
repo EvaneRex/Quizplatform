@@ -9,6 +9,7 @@ import quizRoutes from "./routes/quiz.routes.js";
 import { requireLogin, requireRole } from "./middleware/validerRolle.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import multer from "multer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +18,7 @@ const app = express();
 const PORT = 3000;
 
 const resultsPath = path.join(__dirname, "data", "results.json");
+const upload = multer({ dest: "uploads/" });
 
 function getResults() {
   if (!fs.existsSync(resultsPath)) return [];
@@ -90,7 +92,7 @@ app.post("/results", requireLogin, (req, res) => {
     const quizPath = path.join(__dirname, "quizzes", quizId + ".json");
 
     let quizName = "Ukendt quiz";
-    let quizData = null; // 🔥 FIX
+    let quizData = null;
 
     if (fs.existsSync(quizPath)) {
       quizData = JSON.parse(fs.readFileSync(quizPath, "utf-8"));
@@ -156,35 +158,57 @@ app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
 app.use("/quiz", quizRoutes);
 
 // ----- Upload quiz -----
-app.post("/quiz/upload", requireLogin, requireRole("admin"), (req, res) => {
-  const quiz = req.body;
+app.post(
+  "/quiz/upload",
+  requireLogin,
+  requireRole("admin"),
+  upload.single("file"),
+  (req, res) => {
+    console.log("UPLOAD ROUTE RAMT"); // TEST
 
-  const valid = validateQuiz(quiz);
-  if (!valid) {
-    console.error("Quiz validation errors:", validateQuiz.errors);
-    return res.status(400).json({
-      message: "Ugyldigt quiz-format",
-      errors: validateQuiz.errors,
-    });
-  }
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "Ingen fil uploadet" });
+      }
 
-  try {
-    const quizFolder = path.join(__dirname, "quizzes");
-    if (!fs.existsSync(quizFolder)) {
-      fs.mkdirSync(quizFolder, { recursive: true });
+      const fileContent = fs.readFileSync(req.file.path, "utf-8");
+
+      let quiz;
+      try {
+        quiz = JSON.parse(fileContent);
+      } catch (err) {
+        return res.status(400).json({ message: "Ugyldigt JSON format" });
+      }
+
+      const valid = validateQuiz(quiz);
+
+      if (!valid) {
+        console.error("VALIDATION FEJL:", validateQuiz.errors);
+        return res.status(400).json({
+          message: "Quiz validerede ikke",
+          errors: validateQuiz.errors,
+        });
+      }
+
+      const quizFolder = path.join(__dirname, "quizzes");
+      if (!fs.existsSync(quizFolder)) {
+        fs.mkdirSync(quizFolder);
+      }
+
+      const id = Date.now().toString();
+      const filePath = path.join(quizFolder, id + ".json");
+
+      fs.writeFileSync(filePath, JSON.stringify(quiz, null, 2));
+
+      fs.unlinkSync(req.file.path);
+
+      res.json({ message: "Quiz uploadet succesfuldt" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server fejl ved upload" });
     }
-
-    const id = Date.now().toString();
-    const filePath = path.join(quizFolder, id + ".json");
-
-    fs.writeFileSync(filePath, JSON.stringify(quiz, null, 2), "utf-8");
-
-    res.json({ message: "Quiz uploadet", id });
-  } catch (err) {
-    console.error("Fejl ved gemning af quiz:", err);
-    res.status(500).json({ message: "Kunne ikke gemme quiz" });
-  }
-});
+  },
+);
 
 // ----- LOGOUT -----
 app.post("/auth/logout", (req, res) => {

@@ -1,7 +1,6 @@
 export default class Header {
-  constructor(headerId, pageTitle) {
+  constructor(headerId) {
     this.header = document.getElementById(headerId);
-    this.pageTitle = pageTitle;
     this.render();
     this.loadUser();
   }
@@ -18,27 +17,33 @@ export default class Header {
 
     const logoutBtn = document.createElement("button");
     logoutBtn.textContent = "Log ud";
+
     logoutBtn.addEventListener("click", async () => {
       try {
-        const res = await fetch("/auth/logout", {
+        await fetch("/auth/logout", {
           method: "POST",
           credentials: "include",
         });
+
         window.location.href = "/";
       } catch (err) {
         console.error(err);
         alert("Kunne ikke logge ud");
       }
     });
-    userDiv.appendChild(logoutBtn);
 
+    userDiv.appendChild(logoutBtn);
     this.header.appendChild(userDiv);
   }
 
   async loadUser() {
     try {
-      const res = await fetch("/auth/me", { credentials: "include" });
+      const res = await fetch("/auth/me", {
+        credentials: "include",
+      });
+
       if (!res.ok) throw new Error("Ikke logget ind");
+
       const user = await res.json();
       this.usernameSpan.textContent = user.username;
     } catch (err) {
@@ -47,3 +52,7 @@ export default class Header {
     }
   }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  new Header("header");
+});
