@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   </head>
   <body>
     <h1>Quizplatform</h1>
@@ -32,53 +33,62 @@
         <br />
         <button>Login</button>
       </form>
-      <!-- <div id="twoFa">
-        <h3>To-faktor-autentificering</h3>
-        <p>Scan QR-koden med din autentificerings-app og indtast koden:</p>
-        <img id="qrCode" src="" alt="QR-kode til 2FA" />
-        <form id="twoFA-form">
-          <input
-            type="number"
-            placeholder="Indtast 2FA-kode"
-            maxlength="6"
-            required
-          />
-          <button>Verificer</button>
-        </form>
-      </div> -->
 
       <pre id="out"></pre>
       <a href="opretBruger.html">Ikke en bruger?</a>
 
+      <div id="mfaSection" style="display: none">
+        <p>Scan QR-kode i Authenticator-app eller indtast kode:</p>
+        <canvas id="qrcode" height="300" width="300"></canvas>
+        <input id="mfaCode" placeholder="6-cifret kode" />
+        <button id="verifyMfa">Verificer</button>
+      </div>
+
       <script>
         const form = document.getElementById("login");
         const out = document.getElementById("out");
+        const mfaSection = document.getElementById("mfaSection");
+        const qrcodeCanvas = document.getElementById("qrcode");
+        const verifyBtn = document.getElementById("verifyMfa");
+        let currentSecret = null;
 
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
+          const username = form.username.value;
+          const password = form.password.value;
 
-          const username = form.username.value.trim();
-          const password = form.password.value.trim();
+          const res = await fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
 
-          try {
-            const res = await fetch("/auth/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ username, password }),
-            });
+          const data = await res.json();
+          out.textContent = data.message;
 
-            const data = await res.json();
-
-            out.textContent = data.message;
-
-            if (res.ok) {
-              window.location.href = "/dashboard";
-            }
-          } catch (err) {
-            out.textContent = "Noget gik galt, prøv igen";
+          if (!data.mfaRequired) {
+            window.location.href = "/dashboard";
+            return;
           }
+
+          mfaSection.style.display = "block";
+          if (data.otpauthUrl) {
+            QRCode.toCanvas(qrcodeCanvas, data.otpauthUrl, (err) => {
+              if (err) console.error(err);
+            });
+          }
+
+          verifyBtn.onclick = async () => {
+            const code = document.getElementById("mfaCode").value;
+            const res = await fetch("/auth/verify-mfa", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ code }),
+            });
+            const data = await res.json();
+            out.textContent = data.message;
+            if (res.ok) window.location.href = "/dashboard";
+          };
         });
       </script>
     </div>

@@ -29,31 +29,33 @@ function lockout(req, res, next) {
   next();
 }
 
-function incrementAttempts(loginSucceeded, req) {
-  const ip = req.ip;
-
+function incrementAttempts(loginSucceeded, username) {
   if (!loginSucceeded) {
-    const current = attempts.get(ip) || 0;
-    attempts.set(ip, current + 1);
+    const current = attempts.get(username) || 0;
+    attempts.set(username, current + 1);
 
     if (current + 1 >= maxAttempts) {
       setTimeout(() => {
-        attempts.delete(ip);
+        attempts.delete(username);
       }, lockoutDuration);
     }
   }
 }
 
-function resetAttempts(req) {
-  attempts.delete(req.ip);
-
-  const entry = attempts[username];
-  if (entry?.timer) {
-    clearTimeout(entry.timer);
-  }
-
-  delete attempts[username];
+function resetAttempts(username) {
+  attempts.delete(username);
 }
+
+// function resetAttempts(req) {
+//   attempts.delete(req.ip);
+
+//   const entry = attempts[username];
+//   if (entry?.timer) {
+//     clearTimeout(entry.timer);
+//   }
+
+//   delete attempts[username];
+// }
 
 const loginLimiter = rateLimit({
   // beskytter mod brute-force login ved at begrænse antal forsøg pr. IP

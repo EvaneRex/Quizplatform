@@ -4,7 +4,7 @@ import Ajv from "ajv";
 const ajv = new Ajv({ allErrors: true });
 import path from "path";
 import "dotenv/config";
-import userAuthRoutes from "./routes/userAuth.js";
+import userAuthRouter from "./routes/userAuth.js";
 import quizRoutes from "./routes/quiz.routes.js";
 import { requireLogin, requireRole } from "./middleware/validerRolle.js";
 import fs from "fs";
@@ -16,14 +16,6 @@ let results = [];
 
 const app = express();
 const PORT = 3000;
-
-app.use(express.json());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-
-//valider quiz ved upload
-const schema = JSON.parse(fs.readFileSync("schemas/quiz.schema.json", "utf-8"));
-const validateQuiz = ajv.compile(schema);
 
 app.use(
   session({
@@ -38,6 +30,13 @@ app.use(
     },
   }),
 );
+app.use(express.json());
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+
+//valider quiz ved upload
+const schema = JSON.parse(fs.readFileSync("schemas/quiz.schema.json", "utf-8"));
+const validateQuiz = ajv.compile(schema);
 
 // Routes
 app.get("/", (req, res) => {
@@ -46,6 +45,8 @@ app.get("/", (req, res) => {
   }
   return res.sendFile(path.join(__dirname, "public", "login.html"));
 });
+app.use("/auth", userAuthRouter);
+
 // Dashboard til hver, på den måde kan studerende ikke bruge udviklerværktøj til at se admin
 // Alle de steder hvor studerende ikke skal have adgang, skal der være en requireRole("admin") middleware, og på de steder hvor man skal være logget ind, men ikke nødvendigvis admin, skal der være requireLogin middleware
 
@@ -97,6 +98,7 @@ app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
   res.json(results);
 });
 
+app.use("/quiz", quizRoutes);
 // ----- 2FA -----
 
 // ----- LOGOUT -----
@@ -109,10 +111,7 @@ app.post("/auth/logout", (req, res) => {
   });
 });
 
-app.use("/quiz", quizRoutes);
-app.use("/auth", userAuthRoutes);
-
 // Server stuff
 app.listen(PORT, () => {
-  console.log(`Serveren kører på http://localhost:${PORT}/login.html`);
+  console.log(`Serveren kører på http://localhost:${PORT}`);
 });
