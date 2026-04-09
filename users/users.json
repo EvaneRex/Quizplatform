@@ -25,5 +25,14 @@
     "role": "admin",
     "twoFactorEnabled": true,
     "secret": "FBKDEMDFM5AFISKWGU2TM6SAOYXG432M"
+  },
+  {
+    "id": "1a651221-4f9d-43a5-aa24-06455ad1e0f8",
+    "username": "DevAdmin1!",
+    "email": "dev@admin.test",
+    "password": "$2b$10$lqgeeJZxhGgpsAFXUWdv.ugf1ngnpMQA.EDLUpMTwouRsnwukmPv2",
+    "role": "student",
+    "twoFactorEnabled": true,
+    "secret": "OZWSGV3SLVUC4KRZIN4DMWZFEU6FOIJV"
   }
 ]
