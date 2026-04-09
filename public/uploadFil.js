@@ -8,13 +8,12 @@ function handleUpload() {
 
   const fileType = file.name.split(".").pop().toLowerCase();
 
-  if (fileType === "json") {
-    readJSON(file);
-  } else if (fileType === "xlsx" || fileType === "xls") {
-    readExcel(file);
-  } else {
-    alert("Kun JSON eller Excel filer er tilladt!");
+  if (fileType !== "json") {
+    alert("Kun JSON-filer er tilladt!");
+    return;
   }
+
+  readJSON(file);
 }
 
 function readJSON(file) {
@@ -36,58 +35,6 @@ function readJSON(file) {
   };
 
   reader.readAsText(file);
-}
-
-function readExcel(file) {
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sheet);
-
-      const quiz = {
-        title: file.name,
-        questions: [],
-      };
-
-      rows.forEach((row) => {
-        const answers = [];
-
-        Object.keys(row).forEach((key) => {
-          if (key.toLowerCase().startsWith("answer")) {
-            answers.push(row[key]);
-          }
-        });
-
-        const correct = String(row.correct || "")
-          .split(",")
-          .map((n) => Number(String(n).trim()))
-          .filter((n) => !Number.isNaN(n));
-
-        quiz.questions.push({
-          type: correct.length > 1 ? "multiple" : "single",
-          question: row.question,
-          answers: answers,
-          correct: correct,
-        });
-      });
-
-      if (validateQuiz(quiz)) {
-        saveQuiz(quiz);
-      } else {
-        alert("Excel-data er ugyldig!");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Kunne ikke læse Excel-filen");
-    }
-  };
-
-  reader.readAsArrayBuffer(file);
 }
 
 function validateQuiz(quiz) {

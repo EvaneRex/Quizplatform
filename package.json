@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "sass": "sass public/CSS/style.scss public/CSS/style.css --watch"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
     "multer": "^2.1.1",
     "qrcode": "^1.5.4",
     "speakeasy": "^2.0.0"
+  },
+  "devDependencies": {
+    "sass": "^1.99.0"
   }
 }

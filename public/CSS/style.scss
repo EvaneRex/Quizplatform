@@ -1,0 +1,39 @@
+$primaryColor: #7ebc89;
+$secondaryColor: #74F18B;
+$backgroundColor: #E6DFE7;
+$fontColor: #4e4b5c;
+
+body {
+  background-color: $backgroundColor;
+  color: $fontColor;
+  font-family: Arial, sans-serif;
+  margin: 1;
+  padding: 1;
+}
+
+button {
+  background-color: $primaryColor;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 4px;
+  box-shadow: #4e4b5c 0px 2px 4px;
+  ;
+}
+
+button:hover {
+  background-color: $secondaryColor;
+
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  width: 80%;
+  text-align: center;
+}
