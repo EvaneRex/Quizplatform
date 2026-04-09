@@ -30,6 +30,7 @@
       let currentQuestion = 0;
       let selected = null;
       let selectedMultiple = [];
+      let userAnswers = [];
 
       let score = 0;
       let startTime = Date.now();
@@ -165,6 +166,11 @@
           document.getElementById("feedback").innerText = "Forkert!";
         }
 
+        userAnswers[currentQuestion] = {
+          question: q.question,
+          selected: selectedAnswer,
+        };
+
         document.getElementById("nextBtn").style.display = "block";
       }
 
@@ -197,10 +203,7 @@
             score: Math.round(score * 100) / 100,
             total: questions.length,
             time,
-            answers: questions.map((q, i) => ({
-              question: q.question,
-              userAnswer: null, // kan udvides senere
-            })),
+            answers: userAnswers
           }),
         });
         window.location.href = "/dashboard";

@@ -36,6 +36,7 @@
           <th>Quiz navn</th>
           <th>Korrekt</th>
           <th>Tid</th>
+          <th>Svar</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -92,26 +93,43 @@
       });
 
       async function loadAllResults() {
-        const res = await fetch("/results/all");
+        const res = await fetch("/results/all", {
+          credentials: "include"
+        });
 
         if (!res.ok) return;
 
         const data = await res.json();
+        window.allResultsData = data;
+      
+        console.log("DATA:", data);
 
         const table = document.querySelector("#allResults tbody");
         table.innerHTML = "";
 
-        data.forEach((r, index) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${r.userId}</td>
-            <td>${r.username}</td>
-            <td>${r.quizId}</td>
-            <td>${r.quizName}</td>
-            <td>${r.score}/${r.total}</td>
-            <td>${r.time}s</td>
-          `;
+       data.forEach((r, index) => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${r.userId}</td>
+          <td>${r.username}</td>
+          <td>${r.quizId}</td>
+          <td>${r.quizName}</td>
+          <td>${r.score}/${r.total}</td>
+          <td>${r.time}s</td>
+          <td><button onclick="toggleDetails(${index})">Se svar</button></td>
+        `;
+
+        const detailsRow = document.createElement("tr");
+
+        detailsRow.innerHTML = `
+          <td colspan="7">
+            <div id="details-${index}" style="display:none;"></div>
+          </td>
+        `;
+
           table.appendChild(tr);
+          table.appendChild(detailsRow);
         });
       }
 
@@ -120,7 +138,29 @@
 
         if (el.style.display === "none") {
           el.style.display = "block";
-          el.innerText = "Svar visning (kan udvides senere)";
+
+          const data = window.allResultsData[index];
+
+          if (!data.answers) {
+            el.innerHTML = "Ingen svar gemt";
+            return;
+          }
+
+          el.innerHTML = data.answers
+            .map(
+              (a, i) => `
+              <div>
+                <strong>Spørgsmål ${i + 1}:</strong><br>
+                ${a.question}<br>
+                <em>Dit svar:</em> ${
+                  Array.isArray(a.selected)
+                    ? a.selected.join(", ")
+                    : a.selected
+                }
+              </div>
+            `
+            )
+            .join("<hr>");
         } else {
           el.style.display = "none";
         }
