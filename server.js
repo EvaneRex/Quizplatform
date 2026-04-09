@@ -98,6 +98,8 @@ app.get("/results/all", requireLogin, requireRole("admin"), (req, res) => {
   res.json(results);
 });
 
+
+
 app.use("/quiz", quizRoutes);
 // ----- 2FA -----
 

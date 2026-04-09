@@ -15,6 +15,6 @@
     "password": "$2b$10$hwDCjUmEmKaRhJrfzLGbx.66Q6lZ1i4BMrBrnvFF7LLESIsZoKyhO",
     "role": "student",
     "twoFactorEnabled": false,
-    "secret": null
+    "secret": "GIYWQWZZERDGORDQLNMFIRDTKYYHO6LB"
   }
 ]

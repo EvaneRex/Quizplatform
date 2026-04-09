@@ -44,49 +44,37 @@ router.get("/:id", (req, res) => {
 
   // Fjern correct + lav mapping
   const safeQuestions = quiz.questions.map((q) => {
-  // CLOZE (ingen answers)
-  if (q.type === "cloze") {
-    return {
-      type: q.type,
-      question: q.question,
-      answers: [],
-      mapping: [],
-    };
-  }
+    if (q.type === "cloze") {
+      return {
+        type: q.type,
+        question: q.question,
+        answers: [],
+        mapping: [],
+      };
+    }
 
-  const answersWithIndex = q.answers.map((text, index) => ({
-    text,
-    originalIndex: index,
-  }));
+    const answersWithIndex = q.answers.map((text, index) => ({
+      text,
+      originalIndex: index,
+    }));
 
-  answersWithIndex.sort(() => Math.random() - 0.5);
-
-  return {
-    type: q.type,
-    question: q.question,
-    answers: answersWithIndex.map((a) => a.text),
-    mapping: answersWithIndex.map((a) => a.originalIndex),
-  };
-});
-
-    // Shuffle svar
     answersWithIndex.sort(() => Math.random() - 0.5);
 
     return {
       type: q.type,
       question: q.question,
       answers: answersWithIndex.map((a) => a.text),
-
-      // holder styr på den orignale position for at kunne tjekke svar senere
       mapping: answersWithIndex.map((a) => a.originalIndex),
     };
   });
+
 
   res.json({
     id: id,
     title: quiz.title,
     questions: safeQuestions,
   });
+}); 
 
 router.post("/answer", (req, res) => {
   const { quizId, questionIndex, selected, mapping } = req.body;
@@ -104,10 +92,11 @@ router.post("/answer", (req, res) => {
 
   let mapped = null;
 
+//CLOZE
   if (question.type === "cloze") {
     const isCorrect =
       selected.toString().trim().toLowerCase() ===
-      question.correct.toString().trim().toLowerCase();
+      correct.toString().trim().toLowerCase();
 
     return res.json({
       correct: isCorrect,
@@ -125,21 +114,17 @@ router.post("/answer", (req, res) => {
   let isCorrect;
   let points = 0;
 
-  // CLOZE
-  if (question.type === "cloze") {
-    isCorrect =
-      selected.toString().trim().toLowerCase() ===
-      correct.toString().trim().toLowerCase();
-
-    points = isCorrect ? 1 : 0;
-  }
 
   // MULTIPLE
-  else if (Array.isArray(mapped)) {
+  if (Array.isArray(mapped)) {
     const correctSet = correct;
 
-    const correctChosen = mapped.filter((x) => correctSet.includes(x)).length;
-    const wrongChosen = mapped.filter((x) => !correctSet.includes(x)).length;
+    const correctChosen = mapped.filter((x) =>
+      correctSet.includes(x),
+    ).length;
+    const wrongChosen = mapped.filter((x) =>
+      !correctSet.includes(x),
+    ).length;
 
     const totalCorrect = correctSet.length;
 
@@ -161,4 +146,5 @@ router.post("/answer", (req, res) => {
     points: points,
   });
 });
+
 export default router;
