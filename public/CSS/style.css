@@ -103,6 +103,15 @@ a:hover {
   text-decoration: none;
 }
 
+#admin-back-btn {
+  background-color: #206E83;
+}
+
+#admin-back-btn:hover {
+  background-color: #2394b4;
+  text-decoration: none;
+}
+
 input[type=text],
 input[type=password],
 input[type=email] {

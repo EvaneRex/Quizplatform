@@ -114,6 +114,15 @@ a:hover {
   text-decoration: none;
 }
 
+#admin-back-btn{
+  background-color: $linkColor;
+}
+
+#admin-back-btn:hover {
+  background-color: $linkHoverColor;
+  text-decoration: none;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"] {
