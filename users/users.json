@@ -18,21 +18,12 @@
     "secret": null
   },
   {
-    "id": "da76b0d6-060e-4250-948f-6ca7b850ebc6",
+    "id": "868284c2-8316-4fee-b497-5daa4a658efe",
     "username": "Rikke@123",
-    "email": "evanerex@gmail.com",
-    "password": "$2b$10$AczcZiHpN1EzpE/QYntbtOCSdiDUjM/PqELiZJk3spSXBkq.HyaVm",
-    "role": "student",
-    "twoFactorEnabled": false,
-    "secret": null
-  },
-  {
-    "id": "e41c6bb2-43df-4205-adef-4bcfc880564f",
-    "username": "1234@Test",
     "email": "rikk052z@iba.dk",
-    "password": "$2b$10$dbubhDIokbOgTxh4x6ss4e20onjS4WJPx66hMGdWZDsskVdZWoZre",
+    "password": "$2b$10$/fcrzrMWKh/o9gUV/LAc0ei3yq1.rkfzZRCvi0CjFFjlZ1Zb0mmJO",
     "role": "student",
     "twoFactorEnabled": true,
-    "secret": "LY6DW522OF3GK23YHY3VQYLBJIYWKYKV"
+    "secret": "JM3DK6DNKRYXSYKSIN3VO6KCPU7DAMCH"
   }
 ]

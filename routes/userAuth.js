@@ -33,21 +33,18 @@ router.post("/login", loginLimiter, validerLogin, lockout, async (req, res) => {
   }
 
   resetAttempts(username);
-  if (user.twoFactorEnabled) {
-    req.session.mfaUserId = user.id;
-    return res.json({
-      message: "MFA påkrævet – indtast koden fra Authenticator",
-      mfaRequired: true,
-    });
-  } else if (!user.secret) {
-    const secret = speakeasy.generateSecret({ length: 20 });
-    user.secret = secret.base32;
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+
+  if (!user.twoFactorEnabled) {
+    if (!user.secret) {
+      const secret = speakeasy.generateSecret({ length: 20 });
+      user.secret = secret.base32;
+      fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+    }
 
     req.session.mfaUserId = user.id;
 
     const otpauthUrl = speakeasy.otpauthURL({
-      secret: secret.base32,
+      secret: user.secret,
       label: `QuizPlatform:${username}`,
       issuer: "QuizPlatform",
       encoding: "base32",

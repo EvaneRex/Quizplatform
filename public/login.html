@@ -49,6 +49,7 @@
         const out = document.getElementById("out");
         const mfaSection = document.getElementById("mfaSection");
         const qrcodeCanvas = document.getElementById("qrcode");
+        const verifyBtn = document.getElementById("verifyMfa");
         let currentSecret = null;
 
         form.addEventListener("submit", async (e) => {
@@ -77,19 +78,17 @@
             });
           }
 
-          document
-            .getElementById("verifyMfa")
-            .addEventListener("click", async () => {
-              const code = document.getElementById("mfaCode").value;
-              const res = await fetch("/auth/verify-mfa", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code }),
-              });
-              const data = await res.json();
-              out.textContent = data.message;
-              if (res.ok) window.location.href = "/dashboard";
+          verifyBtn.onclick = async () => {
+            const code = document.getElementById("mfaCode").value;
+            const res = await fetch("/auth/verify-mfa", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ code }),
             });
+            const data = await res.json();
+            out.textContent = data.message;
+            if (res.ok) window.location.href = "/dashboard";
+          };
         });
       </script>
     </div>
