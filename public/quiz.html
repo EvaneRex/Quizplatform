@@ -10,7 +10,6 @@
     <h1 id="title"></h1>
 
     <p id="progress"></p>
-    <p id="question"></p>
 
     <p id="question"></p>
 
@@ -77,7 +76,7 @@
 
             input.oninput = () => {
               if (locked) return;
-              selected = input.value.trim();
+              selected = index;
             };
 
             label.appendChild(input);

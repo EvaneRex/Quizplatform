@@ -68,7 +68,7 @@ router.get("/:id", (req, res) => {
     // CLOZE
     if (q.type === "cloze") {
       return {
-        id: index,
+        id: q.origialId,
         type: q.type,
         question: cleanHtml(q.question),
         answers: [],
