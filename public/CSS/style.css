@@ -81,6 +81,12 @@ button:hover {
   margin: 0;
 }
 
+#quizList button:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+}
+
 a {
   color: #206E83;
   text-decoration: none;
@@ -101,6 +107,7 @@ a:hover {
 
 #studentview:hover {
   background-color: #2394b4;
+  color: #E6DFE7;
   text-decoration: none;
 }
 
@@ -110,6 +117,7 @@ a:hover {
 
 #admin-back-btn:hover {
   background-color: #2394b4;
+  color: #E6DFE7;
   text-decoration: none;
 }
 
