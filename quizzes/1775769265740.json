@@ -9,26 +9,56 @@
     {
       "type": "single",
       "question": "Tekst i javascript gemmes i?",
-      "answers": ["String", "Boolean", "Number", "Date"],
-      "correct": [0]
+      "answers": [
+        "String",
+        "Boolean",
+        "Number",
+        "Date"
+      ],
+      "correct": [
+        0
+      ]
     },
     {
       "type": "multiple",
       "question": "Deklarering af en variabel i JavaScript kan gøres med hvilke af følgende nøgleord?",
-      "answers": ["var", "let", "const", "function"],
-      "correct": [0, 1, 2]
+      "answers": [
+        "var",
+        "let",
+        "const",
+        "function"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ]
     },
     {
       "type": "single",
       "question": "Hvilket symbol bruges til at sammenligne både værdi og type i JavaScript?",
-      "answers": ["==", "===", "=", "!=="],
-      "correct": [1]
+      "answers": [
+        "==",
+        "===",
+        "=",
+        "!=="
+      ],
+      "correct": [
+        1
+      ]
     },
     {
       "type": "single",
       "question": "Hvad betyder '!'?",
-      "answers": ["Negation", "Logisk OG", "Logisk ELLER", "Tildeling"],
-      "correct": [0]
+      "answers": [
+        "Negation",
+        "Logisk OG",
+        "Logisk ELLER",
+        "Tildeling"
+      ],
+      "correct": [
+        0
+      ]
     },
     {
       "type": "single",
@@ -39,14 +69,22 @@
         "Foran hver linje kode",
         "Foran hver funktion"
       ],
-      "correct": [0]
+      "correct": [
+        0
+      ]
     },
-
     {
       "type": "single",
       "question": "Hvilken metode bruges til at tilføje et element i en array?",
-      "answers": ["push()", "pop()", "shift()", "unshift()"],
-      "correct": [0]
+      "answers": [
+        "push()",
+        "pop()",
+        "shift()",
+        "unshift()"
+      ],
+      "correct": [
+        0
+      ]
     },
     {
       "type": "single",
@@ -57,7 +95,9 @@
         "for {i; i < 10; i++}",
         "for loop (let i = 0; i < 10; i++)"
       ],
-      "correct": [0]
+      "correct": [
+        0
+      ]
     },
     {
       "type": "multiple",
@@ -68,19 +108,36 @@
         "let kæledyr = hund;",
         "let kæledyr = _hund_;"
       ],
-      "correct": [0, 1]
+      "correct": [
+        0,
+        1
+      ]
     },
     {
       "type": "single",
       "question": "Hvilken metode bruges til at fjerne det sidste element i en array?",
-      "answers": ["push()", "pop()", "shift()", "unshift()"],
-      "correct": [1]
+      "answers": [
+        "push()",
+        "pop()",
+        "shift()",
+        "unshift()"
+      ],
+      "correct": [
+        1
+      ]
     },
     {
       "type": "single",
       "question": "Hvilken operator bruges til at tildele en værdi til en variabel?",
-      "answers": ["==", "===", "=", "+="],
-      "correct": [2]
+      "answers": [
+        "==",
+        "===",
+        "=",
+        "+="
+      ],
+      "correct": [
+        2
+      ]
     },
     {
       "type": "single",
@@ -91,7 +148,9 @@
         "Tilføjer et element i starten af en array",
         "Tilføjer et element i slutningen af en array"
       ],
-      "correct": [0]
+      "correct": [
+        0
+      ]
     },
     {
       "type": "multiple",
@@ -102,7 +161,10 @@
         "# Dette er en kommentar",
         "<!-- Dette er en kommentar -->"
       ],
-      "correct": [0, 1]
+      "correct": [
+        0,
+        1
+      ]
     },
     {
       "type": "single",
@@ -113,20 +175,22 @@
         "Deklarerer en tom objekt",
         "Deklarerer en tom funktion"
       ],
-      "correct": [0]
+      "correct": [
+        0
+      ]
     },
     {
       "type": "single",
       "question": "Hvad er den første indeks i en array?",
-      "answers": ["0", "1", "-1", "Afhænger af arrayens længde"],
-      "correct": [0]
-    },
-
-    {
-      "type": "single",
-      "question": "TEST",
-      "answers": ["A", "B", "C"],
-      "correct": [1]
+      "answers": [
+        "0",
+        "1",
+        "-1",
+        "Afhænger af arrayens længde"
+      ],
+      "correct": [
+        0
+      ]
     }
   ]
 }

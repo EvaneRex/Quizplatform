@@ -95,6 +95,12 @@
         "At ændre en eksisterende event listener"
       ],
       "correct": [0]
+    },
+    {
+      "type": "single",
+      "question": "TEST",
+      "answers": ["A", "B", "C"],
+      "correct": [1]
     }
   ]
 }
