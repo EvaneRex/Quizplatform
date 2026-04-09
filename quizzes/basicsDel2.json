@@ -4,28 +4,18 @@
     {
       "type": "cloze",
       "question": "Skriv 3 ord du forbinder med JavaScript",
-      "correct": "sting, funktion, variabel"
+      "correct": "string, funktion, variabel"
     },
     {
       "type": "single",
       "question": "Tekst i javascript gemmes i?",
-      "answers": [
-        "String",
-        "Boolean",
-        "Number",
-        "Date"
-      ],
+      "answers": ["String", "Boolean", "Number", "Date"],
       "correct": [0]
     },
     {
       "type": "multiple",
       "question": "Deklarering af en variabel i JavaScript kan gøres med hvilke af følgende nøgleord?",
-      "answers": [
-        "var",
-        "let",
-        "const",
-        "function"
-      ],
+      "answers": ["var", "let", "const", "function"],
       "correct": [0, 1, 2]
     },
     {
@@ -41,7 +31,7 @@
       "correct": [0]
     },
     {
-      "type":"single",
+      "type": "single",
       "question": "Hvor bruger man ; i JavaScript?",
       "answers": [
         "Efter hver linje kode",
@@ -49,9 +39,9 @@
         "Foran hver linje kode",
         "Foran hver funktion"
       ],
-       "correct": [0]
+      "correct": [0]
     },
-    
+
     {
       "type": "single",
       "question": "Hvilken metode bruges til at tilføje et element i en array?",
@@ -59,23 +49,25 @@
       "correct": [0]
     },
     {
-      "type":"single",
+      "type": "single",
       "question": "Hvilken er den korrekte loop?",
       "answers": [
-        "for (let i = 0; i < 10; i++)", 
-        "for let i = 0; i < 10; i++", 
-        "for {i; i < 10; i++}", 
-        "for loop (let i = 0; i < 10; i++)"],
+        "for (let i = 0; i < 10; i++)",
+        "for let i = 0; i < 10; i++",
+        "for {i; i < 10; i++}",
+        "for loop (let i = 0; i < 10; i++)"
+      ],
       "correct": [0]
     },
     {
       "type": "multiple",
       "question": "Vælg alle gyldige måder at bruge en string i JavaScript",
       "answers": [
-        "let kæledyr = 'hund';", 
-        "let kæledyr = \"hund\";", 
-        "let kæledyr = hund;", 
-        "let kæledyr = _hund_;"],
+        "let kæledyr = 'hund';",
+        "let kæledyr = \"hund\";",
+        "let kæledyr = hund;",
+        "let kæledyr = _hund_;"
+      ],
       "correct": [0, 1]
     },
     {
@@ -94,24 +86,27 @@
       "type": "single",
       "question": "Hvad gør text.length?",
       "answers": [
-        "Returnerer længden af en string", 
-        "Fjerner det sidste element i en array", 
-        "Tilføjer et element i starten af en array", 
-        "Tilføjer et element i slutningen af en array"],
+        "Returnerer længden af en string",
+        "Fjerner det sidste element i en array",
+        "Tilføjer et element i starten af en array",
+        "Tilføjer et element i slutningen af en array"
+      ],
       "correct": [0]
     },
     {
-      "type":"multiple",
-      "question":"Vælg alle måder der laver en kommentar i JavaScript",
-      "answers": ["// Dette er en kommentar", 
-        "/* Dette er en kommentar */", 
-        "# Dette er en kommentar", 
-        "<!-- Dette er en kommentar -->"],
+      "type": "multiple",
+      "question": "Vælg alle måder der laver en kommentar i JavaScript",
+      "answers": [
+        "// Dette er en kommentar",
+        "/* Dette er en kommentar */",
+        "# Dette er en kommentar",
+        "<!-- Dette er en kommentar -->"
+      ],
       "correct": [0, 1]
     },
     {
-      "type":"single",
-      "question":"Hvad gør Kæledyr = []?",
+      "type": "single",
+      "question": "Hvad gør Kæledyr = []?",
       "answers": [
         "Deklarerer en tom array",
         "Deklarerer en tom string",
@@ -119,19 +114,12 @@
         "Deklarerer en tom funktion"
       ],
       "correct": [0]
-
     },
     {
-      "type":"single",
-      "question":"Hvad er den første indeks i en array?",
-      "answers": [
-        "0",
-        "1",
-        "-1",
-        "Afhænger af arrayens længde"
-      ],
+      "type": "single",
+      "question": "Hvad er den første indeks i en array?",
+      "answers": ["0", "1", "-1", "Afhænger af arrayens længde"],
       "correct": [0]
-
     }
   ]
 }

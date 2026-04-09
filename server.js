@@ -167,10 +167,31 @@ app.get("/quiz/list", requireLogin, requireRole("admin"), (req, res) => {
     }
 
     const quizFiles = files.filter((f) => f.endsWith(".json"));
-    console.log("Fundne quizzer:", quizFiles);
     res.json(quizFiles);
   });
 });
+
+app.delete(
+  "/quiz/:filename",
+  requireLogin,
+  requireRole("admin"),
+  (req, res) => {
+    const { filename } = req.params;
+    const filePath = path.join(__dirname, "quizzes", filename);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: "Quiz ikke fundet" });
+    }
+
+    try {
+      fs.unlinkSync(filePath);
+      res.json({ message: "Quiz slettet succesfuldt" });
+    } catch (err) {
+      console.error("Fejl ved sletning:", err);
+      res.status(500).json({ message: "Kunne ikke slette quizzen" });
+    }
+  },
+);
 
 app.post(
   "/quiz/upload",
